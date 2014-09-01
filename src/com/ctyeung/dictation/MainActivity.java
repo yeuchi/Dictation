@@ -1,12 +1,12 @@
-// ==================================================================
-// Module:	main
+//==================================================================
+//Module:	main
 //
-// Description:	Dictation exercise from Intel's literature
+//Description:	Dictation exercise from Intel's literature
 //				A test of Google voice for Android app.
 //
-// Reference:
+//Reference:
 //	https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
-// ==================================================================
+//==================================================================
 package com.ctyeung.dictation;
 
 import java.io.File;
@@ -67,6 +67,37 @@ public class MainActivity extends Activity {
 				}
 			}	
 		});
+		
+		// clear button
+		Button btnClear = (Button)findViewById(R.id.btnClear);
+		btnClear.setOnClickListener(new View.OnClickListener() {
+				
+			@Override
+			public void onClick(View v) {
+				if(null!=textView){
+					textView.setText("");
+				}
+			}	
+		});
+		
+		// last button
+		Button btnLast = (Button)findViewById(R.id.btnLast);
+		btnLast.setOnClickListener(new View.OnClickListener() {
+				
+			@Override
+			public void onClick(View v) {
+				if(null!=textView){
+					String str = (String)textView.getText();	// get current text
+					str = str.substring(0, str.length()-2);		// exclude last period
+					
+					int pos = str.lastIndexOf(".");				// find last period
+					if(pos>0){
+						str = str.substring(0, pos+1);			// remove last sentence
+						textView.setText(str);					
+					}
+				}
+			}	
+		});
 	}
 	
 	// Activity Results handler
@@ -90,7 +121,11 @@ public class MainActivity extends Activity {
             	else
             		chars = textView.getText();
             	
-            	textView.setText(chars + " " + (CharSequence) matches.get(0)+".  ");
+            	String str = matches.get(0).toString();
+            	String first = str.substring(0,1).toUpperCase();
+            	str = first + str.substring(1, str.length());
+            	
+            	textView.setText(chars + " " + str + ". ");
             	Toast.makeText(this, (CharSequence) matches.get(0), Toast.LENGTH_LONG).show();
             }
         }
