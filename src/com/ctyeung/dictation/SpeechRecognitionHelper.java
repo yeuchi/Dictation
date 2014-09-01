@@ -1,3 +1,24 @@
+// ==================================================================
+//https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
+//About the Authors
+//
+// Stanislav works in the Software & Service Group at Intel Corporation. 
+// He has 10+ years of experience in software development. 
+// His main interest is optimization of performance, power consumption, 
+// and parallel programming. 
+// In his current role as an Application Engineer providing technical 
+// support for Intel-based devices, Stanislav works closely with software 
+// developers and SoC architects to help them achieve the best possible 
+// performance on Intel platforms. Stanislav holds a Master's degree in 
+// Mathematical Economics from the National Research University Higher 
+// School of Economics.
+//
+// Mikhail is co-author of this blog and an Intel summer intern, who is 
+// studying computer science at Lobachevsky University. He likes to deep 
+// dive in to math and do Android programming tricks.
+// Intel and the Intel logo are trademarks of Intel Corporation in the U.S. and/or other countries.
+// Copyright © 2013 Intel Corporation. All rights reserved.
+// ==================================================================
 package com.ctyeung.dictation;
 
 import java.util.List;

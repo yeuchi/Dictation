@@ -1,3 +1,12 @@
+// ==================================================================
+// Module:	main
+//
+// Description:	Dictation exercise from Intel's literature
+//				A test of Google voice for Android app.
+//
+// Reference:
+//	https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
+// ==================================================================
 package com.ctyeung.dictation;
 
 import java.io.File;
