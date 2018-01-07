@@ -1,7 +1,8 @@
 # Dictation
 
-This is an exercise to try Google SpeechHelper as defined by Stanislav of Intel.
-The excellent article is “Develoing Android* Application with Voice Recognition Features".
+This is an exercise to try Google SpeechHelper in English.
+It performs with amazing quality on/off line and support multiple languages.
+This work extends from the excellent article, “Develoing Android* Application with Voice Recognition Features" by Stanislav of Intel.
 https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
 
 ### Google SpeechRecognizer
