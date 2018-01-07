@@ -13,7 +13,7 @@ Apparently offline processing is possible for some devices with Jellybean and la
 Goto Settings->Language and input->Voice search->Offline speech recognition and install your language packet.  
 Inside the Dictation project Manifest file, comment out this line for internet permission.
 
-<uses-permission android:name=”android.permission.INTERNET” />
+Manifest: <uses-permission android:name=”android.permission.INTERNET” />
 
 ![screen shot 2018-01-07 at 2 24 26 pm](https://user-images.githubusercontent.com/1282659/34653776-a7139062-f3b6-11e7-98b3-cdad1f862deb.png)
 ![screen shot 2018-01-07 at 2 24 41 pm](https://user-images.githubusercontent.com/1282659/34653771-9d18f7a0-f3b6-11e7-975a-9b9a76b41f69.png)
