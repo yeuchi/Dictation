@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Dictation</string>
+    <string name="hello_world">Click on Dictate and tell me what to write !</string>
+    <string name="dictate">Dictate</string>
+    <string name="action_settings"></string>
+    <string name="save">Save</string>
+    <string name="clear">Clear</string>
+    <string name="last">Last</string>
+    <string name="pause">Pause</string>
+</resources>
