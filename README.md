@@ -13,6 +13,9 @@ Update currently includes the following.
 - Layout: landscape addition
 - Add FloatingActionButtons
 
+## Test
+This application has been tested on Samsung Galaxy9.
+
 # References:
 
 Kotlin "Discover the core Android API for Speech Recognition." by Younes Charfaoui, July 30, 2019
