@@ -13,6 +13,8 @@ Update currently includes the following.
 - Layout: landscape addition
 - Add FloatingActionButtons
 
+<img src="https://user-images.githubusercontent.com/1282659/69056365-6aa36a80-09d5-11ea-8a2c-0dbcde47475a.jpg" width="200"> 
+
 ## Test
 This application has been tested on Samsung Galaxy9.
 
