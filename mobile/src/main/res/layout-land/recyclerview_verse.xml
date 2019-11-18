@@ -6,12 +6,15 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/btn_advocate"
+        android:id="@+id/txt_verse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="web"
-        android:layout_margin="10dp"
-        android:padding="10dp"
+        android:layout_marginTop="@dimen/verse_between_space"
+        android:layout_marginBottom="@dimen/verse_between_space"
+        android:layout_marginLeft="@dimen/btn_margin"
+        android:layout_marginRight="@dimen/btn_margin"
+        android:padding="@dimen/btn_margin"
         android:background="@drawable/round_corner"
         android:gravity="left"/>
 

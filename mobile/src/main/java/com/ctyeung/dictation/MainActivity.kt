@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
         speechRecognizer = SpeechRecognitionHelper()
 
         recycleView = activity.findViewById(R.id.rv_stanza)
-        recycleView.layoutManager = LinearLayoutManager(this)
-        recycleView.adapter = ListAdapter(this, list)
+        recycleView?.layoutManager = LinearLayoutManager(this)
+        recycleView?.adapter = ListAdapter(this, list)
     }
 
     /*
@@ -76,10 +76,6 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
      */
     fun onClickStart()
     {
-        //if (null == speechRecognizer)
-        //    speechRecognizer = SpeechRecognitionHelper()
-
-        //speechRecognizer.run(activity)
         askSpeechInput()
     }
 
