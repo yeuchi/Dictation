@@ -23,8 +23,9 @@ import android.speech.RecognizerIntent
 import android.R.attr.data
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import org.json.JSONArray
 
 
 /*
@@ -41,12 +42,19 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
  *  Original Java:
  *  https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
     lateinit var binding: ActivityMainBinding
     lateinit var activity: MainActivity
     lateinit var speechRecognizer:SpeechRecognitionHelper
     val REQ_CODE_SPEECH_INPUT = 100
     lateinit var textView:TextView
+    lateinit var recycleView:RecyclerView
+    var list:ArrayList<String> = ArrayList<String>()
+
+    override fun onListItemClick(clickItemIndex: Int)
+    {
+        // a recycler item is clicked
+    }
 
     //protected var speechHelper: SpeechRecognitionHelper? = null
     //protected var textView: TextView? = null
@@ -57,7 +65,10 @@ class MainActivity : AppCompatActivity() {
         binding?.mainLayout = this
         activity = this
         speechRecognizer = SpeechRecognitionHelper()
-        textView = activity.findViewById(R.id.txt_dictate)
+
+        recycleView = activity.findViewById(R.id.rv_stanza)
+        recycleView.layoutManager = LinearLayoutManager(this)
+        recycleView.adapter = ListAdapter(this, list)
     }
 
     /*
@@ -85,7 +96,8 @@ class MainActivity : AppCompatActivity() {
      */
     fun onClickSave()
     {
-
+        // loop through list and write to file
+        //write2file()
     }
 
     /*
@@ -93,7 +105,8 @@ class MainActivity : AppCompatActivity() {
      */
     fun onClickClear()
     {
-
+        list.clear()
+        recycleView?.invalidate()
     }
 
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?)
@@ -105,7 +118,9 @@ class MainActivity : AppCompatActivity() {
             val size:Int = matches?.size?:0
             if(size > 0)
             {
-                textView.setText(matches.toString())
+                list.add(matches.toString())
+                recycleView.adapter = ListAdapter(this, list)
+                //recycleView?.invalidate()
             }
         }
     }
