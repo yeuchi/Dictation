@@ -21,11 +21,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.speech.RecognizerIntent
 import android.R.attr.data
+import android.annotation.TargetApi
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.os.Build
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
+import java.lang.StringBuilder
 
 
 /*
@@ -69,6 +73,22 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
         recycleView = activity.findViewById(R.id.rv_stanza)
         recycleView?.layoutManager = LinearLayoutManager(this)
         recycleView?.adapter = ListAdapter(this, list)
+
+        if (shouldAskPermissions())
+            askPermissions()
+    }
+
+    protected fun shouldAskPermissions(): Boolean {
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1
+    }
+
+    protected fun askPermissions() {
+        val permissions = arrayOf(
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE"
+        )
+        val requestCode = 200
+        requestPermissions(permissions, requestCode)
     }
 
     /*
@@ -92,8 +112,24 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
      */
     fun onClickSave()
     {
+        if( false == verifyExternalStorage())
+            return;
+
+        if(list.size == 0)
+        {
+            Toast.makeText(this, "No text", Toast.LENGTH_LONG).show()
+            return;
+        }
+
+        // something to save
+        var builder: StringBuilder = StringBuilder()
+
         // loop through list and write to file
-        //write2file()
+        for (str in list) {
+            builder.append(str+ "\r\n")
+        }
+
+        write2file(builder.toString())
     }
 
     /*
@@ -129,31 +165,71 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
         startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
     }
 
-    private fun write2file(str: String) {
+    private fun write2file(str: String)
+    {
         val df = SimpleDateFormat("d MMM yyyy HH:mm:ss")
         val date = df.format(Calendar.getInstance().getTime())
 
+        val path = Environment.getExternalStorageDirectory().toString()
+
+        // Create a file to save the image
+        val directory = File(path, "DICTATE")
+        directory.mkdirs()
+
         val filename = "dictate.txt"
-        val myFile = File(
-            Environment
-                .getExternalStorageDirectory(), filename
-        )
-        try {
+        val myFile = File(directory, filename)
+
+        try
+        {
             if (!myFile.exists())
                 myFile.createNewFile()
 
             val fos: FileOutputStream
-            val buf = date + " " + str + "\r\n"
-            val data = buf.toByteArray()
+            //val buf = date + " " + str + "\r\n"
+            val data = str.toByteArray()
             fos = FileOutputStream(myFile, true)
             fos.write(data)
             fos.flush()
             fos.close()
             Toast.makeText(this, date + " file saved", Toast.LENGTH_LONG).show()
-        } catch (e: Exception) {
+        }
+        catch (e: Exception)
+        {
             e.printStackTrace()
         }
+    }
 
+    private val isExternalStorageReadOnly: Boolean get() {
+        val extStorageState = Environment.getExternalStorageState()
+        return if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
+            true
+        } else {
+            false
+        }
+    }
+    private val isExternalStorageAvailable: Boolean get() {
+        val extStorageState = Environment.getExternalStorageState()
+        return if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+            true
+        } else{
+            false
+        }
+    }
+
+    fun verifyExternalStorage():Boolean
+    {
+        if(false == isExternalStorageAvailable)
+        {
+            Toast.makeText(this, "No external storage", Toast.LENGTH_LONG).show()
+            return false
+        }
+
+        if(true == isExternalStorageReadOnly)
+        {
+            Toast.makeText(this, "ReadOnly external storage", Toast.LENGTH_LONG).show()
+            return false;
+        }
+        return true;
     }
 }
 
