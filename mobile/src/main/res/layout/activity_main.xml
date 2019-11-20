@@ -50,17 +50,6 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 app:fabSize="normal"
                 android:layout_gravity="bottom|right"
-                android:id="@+id/btnPause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_pause"
-                android:layout_margin="@dimen/btn_margin"
-                app:backgroundTint="#FFBB55"
-                android:onClick="@{()-> mainLayout.onClickPause()}"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                app:fabSize="normal"
-                android:layout_gravity="bottom|right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:backgroundTint="#8888FF"

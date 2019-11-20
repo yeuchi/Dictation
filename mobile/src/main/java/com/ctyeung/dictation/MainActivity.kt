@@ -26,8 +26,10 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
 import java.lang.StringBuilder
 
@@ -36,6 +38,9 @@ import java.lang.StringBuilder
  * Description:	Dictation exercise from Intel's literature
  *
  * Reference:
+ *
+ *  Permission
+ *  https://android--code.blogspot.com/2018/03/android-kotlin-request-permissions-at.html
  *
  *  Kotlin
  *  https://medium.com/@mxcsyounes/discover-the-core-android-api-for-speech-recognition-4591e87fd55b
@@ -51,9 +56,9 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
     lateinit var activity: MainActivity
     lateinit var speechRecognizer:SpeechRecognitionHelper
     val REQ_CODE_SPEECH_INPUT = 100
-    lateinit var textView:TextView
     lateinit var recycleView:RecyclerView
     var list:ArrayList<String> = ArrayList<String>()
+    var charCount:Long = 0
 
     override fun onListItemClick(clickItemIndex: Int)
     {
@@ -78,11 +83,18 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
             askPermissions()
     }
 
+    /*
+     * API 23 and up requires permission for READ/WRITE to storage
+     */
     protected fun shouldAskPermissions(): Boolean {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1
     }
 
+    /*
+     * Popup to (explicit) request User for permission
+     */
     protected fun askPermissions() {
+
         val permissions = arrayOf(
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE"
@@ -92,19 +104,31 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
     }
 
     /*
+     * User permission request -> result
+     */
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            grantResults: IntArray)
+    {
+        for(permission:String in permissions)
+        {
+            // result:0 is ok
+            val result = ContextCompat.checkSelfPermission(activity, permission)
+            if (0!=result)
+            {
+                // not permitted to save or read -- !!! data-binding refactor
+                val btnSave = activity.findViewById<FloatingActionButton>(R.id.btnSave)
+                btnSave.hide()
+            }
+        }
+    }
+
+    /*
      * Start dictation
      */
     fun onClickStart()
     {
         askSpeechInput()
-    }
-
-    /*
-     * Stop dictation
-     */
-    fun onClickPause()
-    {
-
     }
 
     /*
@@ -117,7 +141,7 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
 
         if(list.size == 0)
         {
-            Toast.makeText(this, "No text", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, activity.resources.getString(R.string.no_text), Toast.LENGTH_LONG).show()
             return;
         }
 
@@ -130,6 +154,9 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
         }
 
         write2file(builder.toString())
+
+        // clear after save
+        onClickClear()
     }
 
     /*
@@ -139,6 +166,7 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
     {
         list.clear()
         recycleView?.invalidate()
+        charCount = 0
     }
 
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?)
@@ -150,9 +178,11 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
             val size:Int = matches?.size?:0
             if(size > 0)
             {
-                list.add(matches.toString())
+                val str = matches?.get(0).toString()
+                list.add(str)
                 recycleView.adapter = ListAdapter(this, list)
                 //recycleView?.invalidate()
+                charCount += str.length
             }
         }
     }
@@ -161,22 +191,30 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,Locale.getDefault())
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hi speak something");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, activity.resources.getString(R.string.say_some));
         startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+    }
+
+    private fun getDateTime():String
+    {
+        val hasDateTime = SharedPrefUtility.getHasDateTime(activity)
+        if(hasDateTime)
+        {
+            val df = SimpleDateFormat("d MMM yyyy HH:mm:ss")
+            val date = df.format(Calendar.getInstance().getTime())
+            return date
+        }
+        return " " // spacer
     }
 
     private fun write2file(str: String)
     {
-        val df = SimpleDateFormat("d MMM yyyy HH:mm:ss")
-        val date = df.format(Calendar.getInstance().getTime())
-
         val path = Environment.getExternalStorageDirectory().toString()
 
-        // Create a file to save the image
-        val directory = File(path, "DICTATE")
+        val directory = File(path, SharedPrefUtility.getDirectory(activity))
         directory.mkdirs()
 
-        val filename = "dictate.txt"
+        val filename = SharedPrefUtility.getFilePath(activity)
         val myFile = File(directory, filename)
 
         try
@@ -185,13 +223,14 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
                 myFile.createNewFile()
 
             val fos: FileOutputStream
-            //val buf = date + " " + str + "\r\n"
-            val data = str.toByteArray()
+            val dateTime = getDateTime()
+            val buf = dateTime + "\r\n" + str + "\r\n"
+            val data = buf.toByteArray()
             fos = FileOutputStream(myFile, true)
             fos.write(data)
             fos.flush()
             fos.close()
-            Toast.makeText(this, date + " file saved", Toast.LENGTH_LONG).show()
+            Toast.makeText(this,  dateTime + activity.resources.getString(R.string.file_saved), Toast.LENGTH_LONG).show()
         }
         catch (e: Exception)
         {
@@ -220,13 +259,13 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
     {
         if(false == isExternalStorageAvailable)
         {
-            Toast.makeText(this, "No external storage", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, activity.resources.getString(R.string.no_storage), Toast.LENGTH_LONG).show()
             return false
         }
 
         if(true == isExternalStorageReadOnly)
         {
-            Toast.makeText(this, "ReadOnly external storage", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, activity.resources.getString(R.string.read_only_storage), Toast.LENGTH_LONG).show()
             return false;
         }
         return true;

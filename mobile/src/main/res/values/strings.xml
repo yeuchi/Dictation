@@ -7,4 +7,12 @@
     <string name="clear">Clear</string>
     <string name="last">Last</string>
     <string name="pause">Pause</string>
+    <string name="title_activity_config">ConfigActivity</string>
+
+    <!-- Toast messages -->
+    <string name="file_saved">file saved</string>
+    <string name="say_some">Hi, say something</string>
+    <string name="no_text">No text</string>
+    <string name="no_storage">No external storage</string>
+    <string name="read_only_storage">ReadOnly external storage</string>
 </resources>
