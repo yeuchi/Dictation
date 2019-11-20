@@ -13,7 +13,8 @@ Update currently includes the following.
 - Layout: landscape addition
 - Add FloatingActionButtons
 
-At startup, READ/WRITE permission is requested.  Dictation is functional without write permission but no text will be saved or shared.
+At startup, READ/WRITE permission is requested.  Dictation is functional without write permission but no text will be allowed to save or share (email/facebook/drive/etc).
+
 <img src="https://user-images.githubusercontent.com/1282659/69260401-6fa71c00-0b85-11ea-81dc-ff457bf1eba7.jpg" width="200"> 
 <img src="https://user-images.githubusercontent.com/1282659/69260400-6fa71c00-0b85-11ea-8566-a12e69bd1746.jpg" width="200"> 
 <img src="https://user-images.githubusercontent.com/1282659/69261893-0f65a980-0b88-11ea-8f77-805bfa4e737f.jpg" width="200"> 
