@@ -32,3 +32,6 @@ https://software.intel.com/en-us/articles/developing-android-applications-with-v
 4. Google Play: QuickEdit text editor
 https://play.google.com/store/apps/details?id=com.rhmsoft.edit&hl=en_US&pli=1
 
+5. "Android kotlin - Request permissions at runtime example", by Saiful Alam, March 16, 2018
+https://android--code.blogspot.com/2018/03/android-kotlin-request-permissions-at.html
+
