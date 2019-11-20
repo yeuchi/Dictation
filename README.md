@@ -18,6 +18,7 @@ At startup, READ/WRITE permission is requested.  Dictation is functional without
 <img src="https://user-images.githubusercontent.com/1282659/69260401-6fa71c00-0b85-11ea-81dc-ff457bf1eba7.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69260400-6fa71c00-0b85-11ea-8566-a12e69bd1746.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69261893-0f65a980-0b88-11ea-8f77-805bfa4e737f.jpg" width="200"> 
 
 User dictations are separated into verses.  A versus represents no more than 1 minute of user's speech.  When user stops speaking for about 2 seconds (default EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS), Google speech recognition processes voice recording to text.
+
 <img src="https://user-images.githubusercontent.com/1282659/69056365-6aa36a80-09d5-11ea-8a2c-0dbcde47475a.jpg" width="200"> 
 
 ## Test
