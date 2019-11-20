@@ -28,20 +28,20 @@ This application has been tested on Samsung Galaxy9.
 # References:
 
 1. Kotlin "Discover the core Android API for Speech Recognition." by Younes Charfaoui, July 30, 2019
-https://medium.com/@mxcsyounes/discover-the-core-android-api-for-speech-recognition-4591e87fd55b
+   https://medium.com/@mxcsyounes/discover-the-core-android-api-for-speech-recognition-4591e87fd55b
 
 2. "Anddroid Speech to Text Tutorial" by James, June 1, 2017
-http://www.coderzheaven.com/2017/06/01/android-speech-to-text-tutorial/
+   http://www.coderzheaven.com/2017/06/01/android-speech-to-text-tutorial/
 
 3. Java: "Developing Android* Applications with Voice Recognition Features" by Stanislav P. (Intel), September 26, 2013
-https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
+   https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
 
 4. Google Play: QuickEdit text editor
-https://play.google.com/store/apps/details?id=com.rhmsoft.edit&hl=en_US&pli=1
+   https://play.google.com/store/apps/details?id=com.rhmsoft.edit&hl=en_US&pli=1
 
 5. "Android kotlin - Request permissions at runtime example", by Saiful Alam, March 16, 2018
-https://android--code.blogspot.com/2018/03/android-kotlin-request-permissions-at.html
+   https://android--code.blogspot.com/2018/03/android-kotlin-request-permissions-at.html
 
 6. Cloud Speech-to-Text Basics
-https://cloud.google.com/speech-to-text/docs/basics
+   https://cloud.google.com/speech-to-text/docs/basics
 
