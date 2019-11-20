@@ -12,6 +12,7 @@ Update currently includes the following.
 - Kotlin rewrite
 - Layout: landscape addition
 - Add FloatingActionButtons
+- Add Share (email/facebook/drive/etc)
 
 At startup, READ/WRITE permission is requested.  Dictation is functional without write permission but no text will be allowed to save or share (email/facebook/drive/etc).
 
