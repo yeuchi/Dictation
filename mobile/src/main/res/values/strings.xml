@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Dictation</string>
-    <string name="hello_world">Click on Dictate and tell me what to write !</string>
+    <string name="info">Click on Dictate and tell me what to write !</string>
+    <string name="info_count">Verse Count:</string>
     <string name="dictate">Dictate</string>
     <string name="action_settings"></string>
     <string name="save">Save</string>
@@ -9,9 +10,17 @@
     <string name="pause">Pause</string>
     <string name="title_activity_config">ConfigActivity</string>
 
+    <!-- Persistence fragment -->
+    <string name="directory">Directory</string>
+    <string name="filename">Filename</string>
+    <string name="save_local">Save to local file</string>
+    <string name="share">Share</string>
+    <string name="header">Header</string>
+
     <!-- Toast messages -->
     <string name="file_saved">file saved</string>
     <string name="say_some">Hi, say something</string>
+    <string name="not_permitted">User does not permit</string>
     <string name="no_text">No text</string>
     <string name="no_storage">No external storage</string>
     <string name="read_only_storage">ReadOnly external storage</string>

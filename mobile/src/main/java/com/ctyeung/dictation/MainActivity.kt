@@ -51,19 +51,30 @@ import java.lang.StringBuilder
  *  Original Java:
  *  https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
  */
-class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
+class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, PersistFragment.OnDialogListener {
+    val MAX_ITEMS:Int = 200
+    val REQ_CODE_SPEECH_INPUT = 100
+    var list:ArrayList<String> = ArrayList<String>()
+    var verseCount:Long = 0
+    var isSavePermitted:Boolean = true
+
+    lateinit var textInfo:TextView
     lateinit var binding: ActivityMainBinding
     lateinit var activity: MainActivity
     lateinit var speechRecognizer:SpeechRecognitionHelper
-    val REQ_CODE_SPEECH_INPUT = 100
     lateinit var recycleView:RecyclerView
-    var list:ArrayList<String> = ArrayList<String>()
-    var charCount:Long = 0
 
+    /*
+     * Recycleview item clicked (Dictation verse)
+     */
     override fun onListItemClick(clickItemIndex: Int)
     {
         // a recycler item is clicked
     }
+
+    /*
+     * Refactor to use viewModel !!
+     */
 
     //protected var speechHelper: SpeechRecognitionHelper? = null
     //protected var textView: TextView? = null
@@ -78,6 +89,8 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
         recycleView = activity.findViewById(R.id.rv_stanza)
         recycleView?.layoutManager = LinearLayoutManager(this)
         recycleView?.adapter = ListAdapter(this, list)
+
+        textInfo = activity.findViewById(R.id.txt_info)
 
         if (shouldAskPermissions())
             askPermissions()
@@ -119,6 +132,7 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
                 // not permitted to save or read -- !!! data-binding refactor
                 val btnSave = activity.findViewById<FloatingActionButton>(R.id.btnSave)
                 btnSave.hide()
+                isSavePermitted = false
             }
         }
     }
@@ -134,17 +148,44 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
     /*
      * Save dictation to file
      */
-    fun onClickSave()
+    fun onClickPersist()
     {
-        if( false == verifyExternalStorage())
-            return;
-
-        if(list.size == 0)
+        if(false == isSavePermitted)
         {
-            Toast.makeText(this, activity.resources.getString(R.string.no_text), Toast.LENGTH_LONG).show()
-            return;
+            Toast.makeText(this, activity.resources.getString(R.string.not_permitted), Toast.LENGTH_LONG).show()
+            return
         }
 
+        if( false == verifyExternalStorage())
+            return
+
+        if(0 == list.size)
+        {
+            Toast.makeText(this, activity.resources.getString(R.string.no_text), Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val dlg = PersistFragment(this)
+        dlg.show(supportFragmentManager, "Persist")
+    }
+
+    /*
+     * Persist fragment button (save) clicked
+     */
+    override fun onPersistDlgClick(key: String)
+    {
+        when (key)
+        {
+            "keyShare" -> share2Options()
+            "keySave" -> save2Local()
+        }
+
+        // clear after save
+        onClickClear()
+    }
+
+    fun save2Local()
+    {
         // something to save
         var builder: StringBuilder = StringBuilder()
 
@@ -154,9 +195,11 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
         }
 
         write2file(builder.toString())
+    }
 
-        // clear after save
-        onClickClear()
+    fun share2Options()
+    {
+
     }
 
     /*
@@ -166,7 +209,9 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
     {
         list.clear()
         recycleView?.invalidate()
-        charCount = 0
+
+        textInfo?.setText(activity.resources.getString(R.string.info))
+        verseCount = 0
     }
 
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?)
@@ -182,8 +227,22 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener {
                 list.add(str)
                 recycleView.adapter = ListAdapter(this, list)
                 //recycleView?.invalidate()
-                charCount += str.length
+                verseCount ++
+                textInfo?.setText(activity.resources.getString(R.string.info_count) + " " + verseCount)
+
+                popUpSaveReminder()
             }
+        }
+    }
+
+    /*
+     * if verse count > 200, popup for user to save !
+     */
+    private fun popUpSaveReminder()
+    {
+        if(verseCount > MAX_ITEMS)
+        {
+            // pop up to ask user to save or select auto-save !!
         }
     }
 
