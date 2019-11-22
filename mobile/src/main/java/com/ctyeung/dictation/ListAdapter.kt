@@ -1,11 +1,14 @@
 package com.ctyeung.dictation
 
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
 
 /*
@@ -63,9 +66,21 @@ class ListAdapter(val listener:ListItemClickListener, var list:ArrayList<String>
             //viewHolderName.setText(String.valueOf(listIndex));
         }
 
-        override fun onClick(view: View) {
+        override fun onClick(view: View)
+        {
+            toggleRemoveButton(view)
             val clickPosition = adapterPosition
             listener.onListItemClick(clickPosition)
+        }
+
+        fun toggleRemoveButton(view:View)
+        {
+            var parent:LinearLayout = view.parent as LinearLayout
+            val btn = parent?.findViewById<FloatingActionButton>(R.id.btnSelect)
+            if(btn?.visibility == View.VISIBLE)
+                btn?.hide()
+            else
+                btn?.show()
         }
     }
 }

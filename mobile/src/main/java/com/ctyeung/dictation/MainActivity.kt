@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
      */
     override fun onListItemClick(clickItemIndex: Int)
     {
-        // a recycler item is clicked
+        // a recycler item is clicked -- selection changed
     }
 
     /*
