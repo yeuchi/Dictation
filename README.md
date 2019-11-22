@@ -44,4 +44,7 @@ This application has been tested on Samsung Galaxy9.
 
 6. Cloud Speech-to-Text Basics\
    https://cloud.google.com/speech-to-text/docs/basics
+   
+7. Android Room with a View - Kotlin\
+   https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin/#8
 
