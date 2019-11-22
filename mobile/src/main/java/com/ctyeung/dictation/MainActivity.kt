@@ -6,13 +6,7 @@ import android.os.Bundle
 
 import androidx.databinding.DataBindingUtil
 import com.ctyeung.dictation.databinding.ActivityMainBinding
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.widget.Toast
-import java.nio.file.Files.exists
-import android.os.Environment.getExternalStorageDirectory
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Environment
 import android.widget.TextView
 import java.io.File
@@ -20,17 +14,11 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import android.speech.RecognizerIntent
-import android.R.attr.data
-import android.annotation.TargetApi
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.json.JSONArray
 import java.lang.StringBuilder
 
 
@@ -51,7 +39,7 @@ import java.lang.StringBuilder
  *  Original Java:
  *  https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
  */
-class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, PersistFragment.OnDialogListener {
+class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, ShareFragment.OnDialogListener, LocalSaveFragment.OnDialogListener {
     val MAX_ITEMS:Int = 200
     val REQ_CODE_SPEECH_INPUT = 100
     var list:ArrayList<String> = ArrayList<String>()
@@ -148,58 +136,47 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Per
     /*
      * Save dictation to file
      */
-    fun onClickPersist()
+    fun onClickSave()
+    {
+        if(isPersistAllowed()) {
+            val dlg = LocalSaveFragment(this)
+            dlg.show(supportFragmentManager, "Local Save")
+        }
+    }
+
+    /*
+     * Share dictation (drive, facebook, email, etc)
+     */
+    fun onClickShare()
+    {
+        if(isPersistAllowed()) {
+            val dlg = ShareFragment(this)
+            dlg.show(supportFragmentManager, "Share")
+        }
+    }
+
+    /*
+     * 1. User permits save ?
+     * 2. External storage is available
+     * 3. there is dictation to save ?
+     */
+    fun isPersistAllowed():Boolean
     {
         if(false == isSavePermitted)
         {
             Toast.makeText(this, activity.resources.getString(R.string.not_permitted), Toast.LENGTH_LONG).show()
-            return
+            return false
         }
 
         if( false == verifyExternalStorage())
-            return
+            return false
 
         if(0 == list.size)
         {
             Toast.makeText(this, activity.resources.getString(R.string.no_text), Toast.LENGTH_LONG).show()
-            return
+            return false
         }
-
-        val dlg = PersistFragment(this)
-        dlg.show(supportFragmentManager, "Persist")
-    }
-
-    /*
-     * Persist fragment button (save) clicked
-     */
-    override fun onPersistDlgClick(key: String)
-    {
-        when (key)
-        {
-            "keyShare" -> share2Options()
-            "keySave" -> save2Local()
-        }
-
-        // clear after save
-        onClickClear()
-    }
-
-    fun save2Local()
-    {
-        // something to save
-        var builder: StringBuilder = StringBuilder()
-
-        // loop through list and write to file
-        for (str in list) {
-            builder.append(str+ "\r\n")
-        }
-
-        write2file(builder.toString())
-    }
-
-    fun share2Options()
-    {
-
+        return true
     }
 
     /*
@@ -212,6 +189,26 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Per
 
         textInfo?.setText(activity.resources.getString(R.string.info))
         verseCount = 0
+    }
+
+    /*
+     * Persist fragment button (save) clicked
+     */
+    override fun onSaveDlgClick()
+    {
+        // something to save
+        var builder: StringBuilder = StringBuilder()
+
+        // loop through list and write to file
+        for (str in list) {
+            builder.append(str+ "\r\n")
+        }
+
+        write2file(builder.toString())
+    }
+
+    override fun onShareDlgClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?)

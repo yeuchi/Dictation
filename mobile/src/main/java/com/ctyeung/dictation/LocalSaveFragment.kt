@@ -12,25 +12,23 @@ import androidx.fragment.app.DialogFragment
 
 
 import androidx.databinding.DataBindingUtil
-import com.ctyeung.dictation.databinding.FragmentPersistBinding
+import com.ctyeung.dictation.databinding.FragmentLocalSaveBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /*
  * Refactor to use viewModel !!
  */
 
-class PersistFragment(val listener:OnDialogListener) : DialogFragment()
+class LocalSaveFragment(val listener:OnDialogListener) : DialogFragment()
 {
-    val KEY_SAVE:String = "keySave"
-    val KEY_SHARE:String = "keyShare"
-    lateinit var binding:FragmentPersistBinding
+    lateinit var binding:FragmentLocalSaveBinding
     lateinit var txtDirectory:EditText
     lateinit var txtFilename:EditText
     lateinit var _context:Context
 
     interface OnDialogListener
     {
-        fun onPersistDlgClick(key: String)
+        fun onSaveDlgClick()
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -40,7 +38,7 @@ class PersistFragment(val listener:OnDialogListener) : DialogFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        binding = FragmentPersistBinding.inflate(inflater, container, false)
+        binding = FragmentLocalSaveBinding.inflate(inflater, container, false)
         _context = this.context?: listener as Context
         initValues(_context)
         initClickHandler()
@@ -70,26 +68,17 @@ class PersistFragment(val listener:OnDialogListener) : DialogFragment()
                 onClickSave()
             }
         })
-
-        val btnShare = view.findViewById<FloatingActionButton>(R.id.btnShare)
-        btnShare.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                onClickShare()
-            }
-        })
     }
 
     fun onClickSave()
     {
+        /*
+         * refactor this to call viewmodel here !!
+         * - invoke repository LiveData directly
+         */
         SharedPrefUtility.setDirectory(_context, txtDirectory.text.toString())
         SharedPrefUtility.setFilePath(_context, txtFilename.text.toString())
-        listener.onPersistDlgClick(KEY_SAVE)
-        dismiss()
-    }
-
-    fun onClickShare()
-    {
-        listener.onPersistDlgClick(KEY_SHARE)
+        listener.onSaveDlgClick()
         dismiss()
     }
 }

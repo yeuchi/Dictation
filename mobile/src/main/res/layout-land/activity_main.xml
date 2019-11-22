@@ -55,7 +55,18 @@
                 android:layout_margin="@dimen/btn_margin"
                 android:src="@drawable/ic_save"
                 android:id="@+id/btnSave"
-                android:onClick="@{()-> mainLayout.onClickPersist()}"/>
+                android:onClick="@{()-> mainLayout.onClickSave()}"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                app:fabSize="normal"
+                android:layout_gravity="bottom|right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="#8888FF"
+                android:layout_margin="@dimen/btn_margin"
+                android:src="@drawable/ic_share"
+                android:id="@+id/btnShare"
+                android:onClick="@{()-> mainLayout.onClickShare()}"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 app:fabSize="normal"
