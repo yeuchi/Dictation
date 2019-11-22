@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
     lateinit var binding: FragmentShareBinding
     lateinit var _context: Context
+    lateinit var txtTitle:EditText
 
     interface OnDialogListener {
         fun onShareDlgClick()
@@ -34,9 +35,12 @@ class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
         return binding.root
     }
 
+
     fun initValues(context: Context) {
         val view: View = binding.root
-
+        val title = SharedPrefUtility.getShareTitle(context)
+        txtTitle = view.findViewById<EditText>(R.id.txtTitle)
+        txtTitle?.setText(title)
     }
 
     fun initClickHandler() {
@@ -46,6 +50,13 @@ class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
         btnShare.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 onClickShare()
+            }
+        })
+
+        val btnCancel = view.findViewById<FloatingActionButton>(R.id.btnCancel)
+        btnCancel.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                dismiss()
             }
         })
     }

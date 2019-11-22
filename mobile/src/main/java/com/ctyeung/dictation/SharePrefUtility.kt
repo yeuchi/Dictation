@@ -10,6 +10,7 @@ object SharedPrefUtility
     val keyfilepath = "filepath"
     val keydirectory = "directory"
     val keydatetime = "datetime"
+    val keyShareTitle = "shareTitle"
 
     open fun getHasDateTime(context: Context):Boolean
     {
@@ -26,9 +27,19 @@ object SharedPrefUtility
         editor.commit()
     }
 
+    open fun getShareTitle(context: Context):String
+    {
+        return getString(context, keydirectory, context.resources.getString(R.string.default_title))
+    }
+
+    open fun setShareTitle(context: Context, title:String)
+    {
+        setString(context, keydirectory, title)
+    }
+
     open fun getDirectory(context: Context):String
     {
-        return getString(context, keydirectory, "DICTATION")
+        return getString(context, keydirectory, context.resources.getString(R.string.default_directory))
     }
 
     open fun setDirectory(context: Context, directory:String)
@@ -38,7 +49,7 @@ object SharedPrefUtility
 
     open fun getFilePath(context: Context):String
     {
-        return getString(context, keyfilepath, "dictate.txt")
+        return getString(context, keyfilepath, context.resources.getString(R.string.default_filename))
     }
 
     open fun setFilePath(context: Context, filePath:String)

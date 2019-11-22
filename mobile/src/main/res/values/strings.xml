@@ -10,6 +10,11 @@
     <string name="pause">Pause</string>
     <string name="title_activity_config">ConfigActivity</string>
 
+    <!-- SharePrefUtility -->
+    <string name="default_title">Title</string>
+    <string name="default_directory">DICTATION</string>
+    <string name="default_filename">dictate.txt</string>
+
     <!-- Persistence fragment -->
     <string name="directory">Directory</string>
     <string name="filename">Filename</string>

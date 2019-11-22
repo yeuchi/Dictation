@@ -68,6 +68,13 @@ class LocalSaveFragment(val listener:OnDialogListener) : DialogFragment()
                 onClickSave()
             }
         })
+
+        val btnCancel = view.findViewById<FloatingActionButton>(R.id.btnCancel)
+        btnCancel.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                dismiss()
+            }
+        })
     }
 
     fun onClickSave()

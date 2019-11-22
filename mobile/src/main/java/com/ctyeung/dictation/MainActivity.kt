@@ -180,9 +180,9 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
     }
 
     /*
-     * Clear text on screen
+     * Delete dictation verse(s) on screen and database
      */
-    fun onClickClear()
+    fun onClickDelete()
     {
         list.clear()
         recycleView?.invalidate()
