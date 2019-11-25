@@ -40,7 +40,7 @@ class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
         val view: View = binding.root
         val title = SharedPrefUtility.getShareTitle(context)
         txtTitle = view.findViewById<EditText>(R.id.txtTitle)
-        txtTitle?.setText(title)
+        txtTitle.setText(title)
     }
 
     fun initClickHandler() {

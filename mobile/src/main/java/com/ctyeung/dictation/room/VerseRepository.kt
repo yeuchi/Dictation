@@ -5,10 +5,15 @@ import androidx.lifecycle.LiveData
 class VerseRepository(private val verseDao: VerseDao)
 {
 
-    val stanza:LiveData<List<VerseEntity>> = verseDao.getAllVerses()
+    var stanza:LiveData<List<Verse>> = verseDao.getAllVerses()
 
-    suspend fun insert(verse:VerseEntity)
+    suspend fun insert(verse:Verse)
     {
         verseDao.insert(verse)
+    }
+
+    suspend fun clear()
+    {
+        verseDao.deleteAll()
     }
 }

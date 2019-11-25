@@ -1,23 +1,22 @@
 package com.ctyeung.dictation
 
-import android.opengl.Visibility
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ctyeung.dictation.room.Verse
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.json.JSONArray
 
 /*
  * Reference
  * https://android.jlelse.eu/using-recyclerview-in-android-kotlin-722991e86bf3
  */
-
-class ListAdapter(val listener:ListItemClickListener, var list:ArrayList<String>) : RecyclerView.Adapter<ListAdapter.ViewHolder>()
+class ListAdapter(val listener:ListItemClickListener) : RecyclerView.Adapter<ListAdapter.ViewHolder>()
 {
+    private var verses = emptyList<Verse>()
+
     interface ListItemClickListener
     {
         abstract fun onListItemClick(clickItemIndex: Int)
@@ -26,22 +25,23 @@ class ListAdapter(val listener:ListItemClickListener, var list:ArrayList<String>
     /*
      * re-render after source data has been updated
      */
-    fun invalidate()
+    internal fun setVerses(verses:List<Verse>)
     {
+        this.verses = verses
         notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return this.verses?.size?:0
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //holder.bind(position)
-        holder?.verse?.text = list.get(position)
+        holder.verse.text = this.verses?.get(position)?.verse
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.recyclerview_verse, parent, false), listener)
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_verse, parent, false), listener)
     }
 
     class ViewHolder(itemView: View, val listener: ListItemClickListener) :
@@ -76,11 +76,11 @@ class ListAdapter(val listener:ListItemClickListener, var list:ArrayList<String>
         fun toggleRemoveButton(view:View)
         {
             var parent:LinearLayout = view.parent as LinearLayout
-            val btn = parent?.findViewById<FloatingActionButton>(R.id.btnSelect)
-            if(btn?.visibility == View.VISIBLE)
-                btn?.hide()
+            val btn = parent.findViewById<FloatingActionButton>(R.id.btnSelect)
+            if(btn.visibility == View.VISIBLE)
+                btn.hide()
             else
-                btn?.show()
+                btn.show()
         }
     }
 }

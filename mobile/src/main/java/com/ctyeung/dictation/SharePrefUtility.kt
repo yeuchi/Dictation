@@ -12,14 +12,14 @@ object SharedPrefUtility
     val keydatetime = "datetime"
     val keyShareTitle = "shareTitle"
 
-    open fun getHasDateTime(context: Context):Boolean
+    fun getHasDateTime(context: Context):Boolean
     {
         val defaultValue:Boolean = false
         val sharedPreferences = getSharedPref(context)
         return sharedPreferences.getBoolean(keydatetime, defaultValue)
     }
 
-    open fun setHasDateTime(context: Context, onOff:Boolean)
+    fun setHasDateTime(context: Context, onOff:Boolean)
     {
         val sharedPreferences = getSharedPref(context)
         val editor = sharedPreferences.edit()
@@ -27,32 +27,32 @@ object SharedPrefUtility
         editor.commit()
     }
 
-    open fun getShareTitle(context: Context):String
+    fun getShareTitle(context: Context):String
     {
         return getString(context, keydirectory, context.resources.getString(R.string.default_title))
     }
 
-    open fun setShareTitle(context: Context, title:String)
+    fun setShareTitle(context: Context, title:String)
     {
         setString(context, keydirectory, title)
     }
 
-    open fun getDirectory(context: Context):String
+    fun getDirectory(context: Context):String
     {
         return getString(context, keydirectory, context.resources.getString(R.string.default_directory))
     }
 
-    open fun setDirectory(context: Context, directory:String)
+    fun setDirectory(context: Context, directory:String)
     {
         setString(context, keydirectory, directory)
     }
 
-    open fun getFilePath(context: Context):String
+    fun getFilePath(context: Context):String
     {
         return getString(context, keyfilepath, context.resources.getString(R.string.default_filename))
     }
 
-    open fun setFilePath(context: Context, filePath:String)
+    fun setFilePath(context: Context, filePath:String)
     {
         setString(context, keyfilepath, filePath)
     }

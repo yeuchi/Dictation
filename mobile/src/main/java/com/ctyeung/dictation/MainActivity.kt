@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
+import androidx.lifecycle.Observer
 import androidx.databinding.DataBindingUtil
 import com.ctyeung.dictation.databinding.ActivityMainBinding
 import android.widget.Toast
@@ -16,8 +17,11 @@ import java.util.*
 import android.speech.RecognizerIntent
 import android.os.Build
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ctyeung.dictation.room.Verse
+import com.ctyeung.dictation.viewModel.VerseViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.lang.StringBuilder
 
@@ -42,9 +46,8 @@ import java.lang.StringBuilder
 class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, ShareFragment.OnDialogListener, LocalSaveFragment.OnDialogListener {
     val MAX_ITEMS:Int = 200
     val REQ_CODE_SPEECH_INPUT = 100
-    var list:ArrayList<String> = ArrayList<String>()
-    var verseCount:Long = 0
     var isSavePermitted:Boolean = true
+    lateinit var verseViewModel: VerseViewModel
 
     lateinit var textInfo:TextView
     lateinit var binding: ActivityMainBinding
@@ -70,13 +73,24 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding?.mainLayout = this
+        binding.mainLayout = this
         activity = this
         speechRecognizer = SpeechRecognitionHelper()
 
+        // recycler view
         recycleView = activity.findViewById(R.id.rv_stanza)
-        recycleView?.layoutManager = LinearLayoutManager(this)
-        recycleView?.adapter = ListAdapter(this, list)
+        val adapter = ListAdapter(this)
+        recycleView.layoutManager = LinearLayoutManager(this)
+        recycleView.adapter = adapter
+
+        // data
+        verseViewModel = ViewModelProvider(this).get(VerseViewModel::class.java)
+        verseViewModel.stanza.observe(this, Observer { stanza ->
+            // Update the cached copy of the words in the adapter.
+            stanza?.let { adapter.setVerses(it) }
+        })
+
+
 
         textInfo = activity.findViewById(R.id.txt_info)
 
@@ -171,7 +185,7 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
         if( false == verifyExternalStorage())
             return false
 
-        if(0 == list.size)
+        if(0 == verseViewModel.stanza.value?.size)
         {
             Toast.makeText(this, activity.resources.getString(R.string.no_text), Toast.LENGTH_LONG).show()
             return false
@@ -184,11 +198,12 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
      */
     fun onClickDelete()
     {
-        list.clear()
-        recycleView?.invalidate()
+        val size:Int = verseViewModel.stanza.value?.size?:0
+        verseViewModel.stanza.value?.drop(size)
+        recycleView.invalidate()
 
-        textInfo?.setText(activity.resources.getString(R.string.info))
-        verseCount = 0
+        textInfo.setText(activity.resources.getString(R.string.info))
+       // verseCount = 0
     }
 
     /*
@@ -200,8 +215,9 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
         var builder: StringBuilder = StringBuilder()
 
         // loop through list and write to file
-        for (str in list) {
-            builder.append(str+ "\r\n")
+        val stanza = verseViewModel.stanza.value?:emptyList<Verse>()
+        for (v in stanza) {
+            builder.append(v.verse+ "\r\n")
         }
 
         write2file(builder.toString())
@@ -221,15 +237,21 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
             if(size > 0)
             {
                 val str = matches?.get(0).toString()
-                list.add(str)
-                recycleView.adapter = ListAdapter(this, list)
+                val verse = Verse(System.currentTimeMillis(), str)
+                verseViewModel.insert(verse)
+               // recycleView.adapter = ListAdapter(activity, verseViewModel.verses.value)
                 //recycleView?.invalidate()
-                verseCount ++
-                textInfo?.setText(activity.resources.getString(R.string.info_count) + " " + verseCount)
+                //verseCount ++
+                textInfo.setText(activity.resources.getString(R.string.info_count) + " " + verseCount())
 
                 popUpSaveReminder()
             }
         }
+    }
+
+    fun verseCount():Int
+    {
+        return verseViewModel.stanza.value?.size?:0
     }
 
     /*
@@ -237,7 +259,7 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
      */
     private fun popUpSaveReminder()
     {
-        if(verseCount > MAX_ITEMS)
+        if(verseCount() > MAX_ITEMS)
         {
             // pop up to ask user to save or select auto-save !!
         }

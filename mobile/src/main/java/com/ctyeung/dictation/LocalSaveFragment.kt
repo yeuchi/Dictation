@@ -51,11 +51,11 @@ class LocalSaveFragment(val listener:OnDialogListener) : DialogFragment()
 
         val directory = SharedPrefUtility.getDirectory(context)
         txtDirectory = view.findViewById<EditText>(R.id.txtDirectory)
-        txtDirectory?.setText(directory)
+        txtDirectory.setText(directory)
 
         val filename = SharedPrefUtility.getFilePath(context)
         txtFilename = view.findViewById<EditText>(R.id.txtFilename)
-        txtFilename?.setText(filename)
+        txtFilename.setText(filename)
     }
 
     fun initClickHandler()
