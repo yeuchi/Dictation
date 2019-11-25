@@ -23,5 +23,17 @@ class VerseViewModel (application: Application) : AndroidViewModel(application)
     fun insert(verse:Verse) = viewModelScope.launch {
         repository.insert(verse)
     }
+
+    fun deleteSelected()= viewModelScope.launch {
+        repository.deleteSelected()
+    }
+
+    fun clear() = viewModelScope.launch {
+        repository.clear()
+    }
+
+    fun update(verse:Verse) = viewModelScope.launch {
+        repository.update(verse)
+    }
 }
 

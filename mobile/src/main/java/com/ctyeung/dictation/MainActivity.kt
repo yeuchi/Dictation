@@ -58,9 +58,10 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
     /*
      * Recycleview item clicked (Dictation verse)
      */
-    override fun onListItemClick(clickItemIndex: Int)
+    override fun onListItemClick(verse: Verse)
     {
         // a recycler item is clicked -- selection changed
+        verseViewModel.update(verse)
     }
 
     /*
@@ -239,9 +240,6 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
                 val str = matches?.get(0).toString()
                 val verse = Verse(System.currentTimeMillis(), str)
                 verseViewModel.insert(verse)
-               // recycleView.adapter = ListAdapter(activity, verseViewModel.verses.value)
-                //recycleView?.invalidate()
-                //verseCount ++
                 textInfo.setText(activity.resources.getString(R.string.info_count) + " " + verseCount())
 
                 popUpSaveReminder()

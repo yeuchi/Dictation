@@ -16,4 +16,14 @@ class VerseRepository(private val verseDao: VerseDao)
     {
         verseDao.deleteAll()
     }
+
+    suspend fun deleteSelected()
+    {
+        verseDao.deleteSelected()
+    }
+
+    suspend fun update(verse:Verse)
+    {
+        verseDao.update(verse)
+    }
 }

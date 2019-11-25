@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "verse_table")
 class Verse(@PrimaryKey @ColumnInfo(name = "datetime") val datetime: Long,
-            val verse:String)
+            val verse:String,
+            var isSelected:Boolean=false)
 {
-
 }

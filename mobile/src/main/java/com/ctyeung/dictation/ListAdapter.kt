@@ -19,7 +19,7 @@ class ListAdapter(val listener:ListItemClickListener) : RecyclerView.Adapter<Lis
 
     interface ListItemClickListener
     {
-        abstract fun onListItemClick(clickItemIndex: Int)
+        abstract fun onListItemClick(verse:Verse)
     }
 
     /*
@@ -32,55 +32,66 @@ class ListAdapter(val listener:ListItemClickListener) : RecyclerView.Adapter<Lis
     }
 
     override fun getItemCount(): Int {
-        return this.verses?.size?:0
+        return this.verses?.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //holder.bind(position)
-        holder.verse.text = this.verses?.get(position)?.verse
+        holder.txtVerse.text = this.verses?.get(position)?.verse
+        holder.txtDateTime.text = this.verses?.get(position)?.datetime.toString()
+        holder.setSelection(this.verses.get(position)?.isSelected)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_verse, parent, false), listener)
     }
 
-    class ViewHolder(itemView: View, val listener: ListItemClickListener) :
+    class ViewHolder(itemView: View,
+                     val listener: ListItemClickListener) :
                             RecyclerView.ViewHolder(itemView),
                             View.OnClickListener
     {
-        var verse: TextView
+        var txtVerse: TextView
+        var txtDateTime: TextView
+        var btn: FloatingActionButton
 
         init
         {
-            verse = itemView.findViewById(R.id.txt_verse) as TextView
-            verse.setOnClickListener(this)
-        }
-
-        /**
-         * A method we wrote for convenience. This method will take an integer as input and
-         * use that integer to display the appropriate text within a list item.
-         * @param listIndex Position of the item in the list
-         */
-        fun bind(listIndex: Int) {
-
-            //viewHolderName.setText(String.valueOf(listIndex));
+            btn = itemView.findViewById<FloatingActionButton>(R.id.btnSelect)
+            txtDateTime = itemView.findViewById(R.id.txt_seconds) as TextView
+            txtVerse = itemView.findViewById(R.id.txt_verse) as TextView
+            txtVerse.setOnClickListener(this)
         }
 
         override fun onClick(view: View)
         {
-            toggleRemoveButton(view)
-            val clickPosition = adapterPosition
-            listener.onListItemClick(clickPosition)
+            val v = Verse(txtDateTime.text.toString().toLong(),
+                            txtVerse.text.toString(),
+                            !isSelected())
+            listener.onListItemClick(v)
         }
 
-        fun toggleRemoveButton(view:View)
+        fun isSelected():Boolean
         {
-            var parent:LinearLayout = view.parent as LinearLayout
-            val btn = parent.findViewById<FloatingActionButton>(R.id.btnSelect)
             if(btn.visibility == View.VISIBLE)
-                btn.hide()
+            {
+                return true
+            }
             else
+            {
+                return false
+            }
+        }
+
+        fun setSelection(isOn:Boolean=false)
+        {
+            if(true==isOn)
+            {
                 btn.show()
+            }
+            else
+            {
+                btn.hide()
+            }
         }
     }
 }
