@@ -1,5 +1,5 @@
 # Dictation
-Android dictation exercise
+Android dictation exercise <img src="https://user-images.githubusercontent.com/1282659/69678209-87414180-106a-11ea-833a-e03f49ba6154.png" width="40"> 
 
 Google Play : https://play.google.com/store/apps/details?id=com.ctyeung.dictation
 
