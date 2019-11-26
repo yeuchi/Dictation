@@ -33,4 +33,5 @@
     <!-- Delete fragment -->
     <string name="msg_delete_all">Delete All</string>
     <string name="msg_delete_selected">Delete Selected</string>
+    <string name="out_of"> of </string>
 </resources>

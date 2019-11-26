@@ -52,13 +52,21 @@ class MainActivity : AppCompatActivity(),
     val MAX_ITEMS:Int = 200
     val REQ_CODE_SPEECH_INPUT = 100
     var isSavePermitted:Boolean = true
-    lateinit var verseViewModel: VerseViewModel
+    var countSelected:Int = 0
 
+    lateinit var verseViewModel: VerseViewModel
     lateinit var textInfo:TextView
     lateinit var binding: ActivityMainBinding
     lateinit var activity: MainActivity
     lateinit var speechRecognizer:SpeechRecognitionHelper
     lateinit var recycleView:RecyclerView
+
+    /*
+     * Refactor all variables into model
+     *
+     * 1. Serialization
+     * 2. Marshalling of data
+     */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,11 +175,8 @@ class MainActivity : AppCompatActivity(),
      */
     fun onClickDelete()
     {
-        /*
-         * - number selected
-         * - total verse count
-         */
-        val dlg = DeleteFragment(this, selectedCount(), verseCount())
+        countSelected = selectedCount()
+        val dlg = DeleteFragment(this, countSelected, verseCount())
         dlg.show(supportFragmentManager, "Delete")
     }
 
@@ -179,7 +184,6 @@ class MainActivity : AppCompatActivity(),
      * User chooses to delete
      */
     override fun onDeleteDlgClick() {
-        val countSelected = selectedCount()
         if(0==countSelected ||
             countSelected==verseCount()) {
             verseViewModel.clear()

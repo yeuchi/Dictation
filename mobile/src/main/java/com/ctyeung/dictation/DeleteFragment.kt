@@ -46,7 +46,10 @@ class DeleteFragment(val listener:OnDialogListener,
         // delete selected few
         else
         {
-            return binding.root.resources.getString(R.string.msg_delete_selected)
+            return binding.root.resources.getString(R.string.msg_delete_selected) +
+                    countSelected +
+                    binding.root.resources.getString(R.string.out_of) +
+                    countTotal
         }
     }
 
