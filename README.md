@@ -5,7 +5,7 @@ Google Play : https://play.google.com/store/apps/details?id=com.ctyeung.dictatio
 
 ## 2013 Version 1
 This was originally implemented in Java as an exercise to demonstrate the speech to text feature.
-It only supported portrait mode, dictation and file save.
+It only supported portrait mode, dictation and file save.  Radiology medical viewers such as GE already had this feature.
 
 ## 2019 Version 2 (work in progress)
 Update currently includes the following.
