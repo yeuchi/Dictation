@@ -26,6 +26,10 @@ User dictations are separated into verses.  A versus represents no more than 1 m
 Select N verse(s) to delete selected.  Delete all if none selected.\
 <img src="https://user-images.githubusercontent.com/1282659/69597287-15fe8180-0fcb-11ea-8458-e5b3fe8fb6be.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69597019-27935980-0fca-11ea-8ef8-ea76a38638cc.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69597009-219d7880-0fca-11ea-897d-a3bfa5e04171.jpg" width="200"> 
 
+## Definitions
+- Dictation: a voice recording converted to text via Google Speech recognition service.
+- Verse: (less than 1 minute) segment of converted text.
+- Stanza: collection of verses.
 
 ## Test
 This application has been tested on Samsung Galaxy9.
