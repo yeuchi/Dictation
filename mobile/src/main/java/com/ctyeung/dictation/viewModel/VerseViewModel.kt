@@ -13,13 +13,11 @@ class VerseViewModel (application: Application) : AndroidViewModel(application)
 {
     var repository:VerseRepository
     var stanza:LiveData<List<Verse>>
-    var selected:LiveData<List<Verse>>
 
     init {
         val verseDao = VerseDatabase.getDatabase(application, viewModelScope).verseDao()
         repository = VerseRepository(verseDao)
         stanza = repository.stanza
-        selected = repository.selected
     }
 
     fun insert(verse:Verse) = viewModelScope.launch {

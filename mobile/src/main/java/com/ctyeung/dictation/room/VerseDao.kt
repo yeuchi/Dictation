@@ -13,7 +13,7 @@ interface VerseDao
     @Query("SELECT * from verse_table ORDER BY datetime")
     fun getAllVerses() : LiveData<List<Verse>>
 
-    @Query("SELECT * from verse_table WHERE isSelected is 1")
+    @Query("SELECT * from verse_table WHERE isSelected = 1")
     fun getSelected() : LiveData<List<Verse>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -33,7 +33,7 @@ interface VerseDao
     fun getVerse(seconds: Long) : List<Verse>
     */
 
-    @Query("DELETE FROM verse_table WHERE isSelected is 1")
+    @Query("DELETE FROM verse_table WHERE isSelected = 1")
     suspend fun deleteSelected()
 
     @Update(onConflict = OnConflictStrategy.IGNORE)

@@ -179,7 +179,9 @@ class MainActivity : AppCompatActivity(),
      * User chooses to delete
      */
     override fun onDeleteDlgClick() {
-        if(0==selectedCount() || selectedCount()==verseCount()) {
+        val countSelected = selectedCount()
+        if(0==countSelected ||
+            countSelected==verseCount()) {
             verseViewModel.clear()
         }
         else
@@ -282,9 +284,12 @@ class MainActivity : AppCompatActivity(),
         return verseViewModel.stanza.value?.size?:0
     }
 
+    /*
+     * number of selected count
+     */
     fun selectedCount():Int
     {
-        return verseViewModel.selected.value?.size?:0
+        return verseViewModel.repository.getCountSelected()
     }
 
     /*
