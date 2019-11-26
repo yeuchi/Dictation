@@ -29,4 +29,8 @@
     <string name="no_text">No text</string>
     <string name="no_storage">No external storage</string>
     <string name="read_only_storage">ReadOnly external storage</string>
+
+    <!-- Delete fragment -->
+    <string name="msg_delete_all">Delete All</string>
+    <string name="msg_delete_selected">Delete Selected</string>
 </resources>

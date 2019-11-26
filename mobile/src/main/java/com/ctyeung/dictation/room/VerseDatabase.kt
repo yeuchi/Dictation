@@ -69,6 +69,7 @@ public abstract class VerseDatabase : RoomDatabase ()
 
             var verse = Verse(java.lang.System.currentTimeMillis(), "Hello")
             verseDao.insert(verse)
+            verseDao.deleteAll()
         }
     }
 

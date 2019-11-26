@@ -43,7 +43,12 @@ import java.lang.StringBuilder
  *  Original Java:
  *  https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
  */
-class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, ShareFragment.OnDialogListener, LocalSaveFragment.OnDialogListener {
+class MainActivity : AppCompatActivity(),
+                        ListAdapter.ListItemClickListener,
+                        ShareFragment.OnDialogListener,
+                        LocalSaveFragment.OnDialogListener,
+                        DeleteFragment.OnDialogListener {
+
     val MAX_ITEMS:Int = 200
     val REQ_CODE_SPEECH_INPUT = 100
     var isSavePermitted:Boolean = true
@@ -55,21 +60,6 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
     lateinit var speechRecognizer:SpeechRecognitionHelper
     lateinit var recycleView:RecyclerView
 
-    /*
-     * Recycleview item clicked (Dictation verse)
-     */
-    override fun onListItemClick(verse: Verse)
-    {
-        // a recycler item is clicked -- selection changed
-        verseViewModel.update(verse)
-    }
-
-    /*
-     * Refactor to use viewModel !!
-     */
-
-    //protected var speechHelper: SpeechRecognitionHelper? = null
-    //protected var textView: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -90,8 +80,6 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
             // Update the cached copy of the words in the adapter.
             stanza?.let { adapter.setVerses(it) }
         })
-
-
 
         textInfo = activity.findViewById(R.id.txt_info)
 
@@ -170,6 +158,43 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
         }
     }
 
+    override fun onShareDlgClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /*
+     * Delete dictation verse(s) on screen and database
+     */
+    fun onClickDelete()
+    {
+        /*
+         * - number selected
+         * - total verse count
+         */
+        val dlg = DeleteFragment(this, selectedCount(), verseCount())
+        dlg.show(supportFragmentManager, "Delete")
+    }
+
+    /*
+     * User chooses to delete
+     */
+    override fun onDeleteDlgClick() {
+        if(0==selectedCount() || selectedCount()==verseCount()) {
+            verseViewModel.clear()
+        }
+        else
+            verseViewModel.deleteSelected()
+    }
+
+    /*
+     * Recycleview item clicked (Dictation verse)
+     */
+    override fun onListItemClick(verse: Verse)
+    {
+        // a recycler item is clicked -- selection changed
+        verseViewModel.update(verse)
+    }
+
     /*
      * 1. User permits save ?
      * 2. External storage is available
@@ -195,19 +220,6 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
     }
 
     /*
-     * Delete dictation verse(s) on screen and database
-     */
-    fun onClickDelete()
-    {
-        val size:Int = verseViewModel.stanza.value?.size?:0
-        verseViewModel.stanza.value?.drop(size)
-        recycleView.invalidate()
-
-        textInfo.setText(activity.resources.getString(R.string.info))
-       // verseCount = 0
-    }
-
-    /*
      * Persist fragment button (save) clicked
      */
     override fun onSaveDlgClick()
@@ -224,10 +236,9 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
         write2file(builder.toString())
     }
 
-    override fun onShareDlgClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    /*
+     * Capture dictation result
+     */
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?)
     {
         super.onActivityResult(requestCode, resultCode, data);
@@ -240,16 +251,40 @@ class MainActivity : AppCompatActivity(), ListAdapter.ListItemClickListener, Sha
                 val str = matches?.get(0).toString()
                 val verse = Verse(System.currentTimeMillis(), str)
                 verseViewModel.insert(verse)
-                textInfo.setText(activity.resources.getString(R.string.info_count) + " " + verseCount())
-
-                popUpSaveReminder()
             }
         }
+        updateInfo()
     }
 
+    /*
+     * Display appropriate text information
+     */
+    fun updateInfo()
+    {
+        val count = verseCount()
+        var str:String
+        if(count > 0)
+        {
+            str = activity.resources.getString(R.string.info_count) + " " + count
+            popUpSaveReminder()
+        }
+        else {
+            str = activity.resources.getString(R.string.info)
+        }
+        textInfo.setText(str)
+    }
+
+    /*
+     * number of verses in db
+     */
     fun verseCount():Int
     {
         return verseViewModel.stanza.value?.size?:0
+    }
+
+    fun selectedCount():Int
+    {
+        return verseViewModel.selected.value?.size?:0
     }
 
     /*

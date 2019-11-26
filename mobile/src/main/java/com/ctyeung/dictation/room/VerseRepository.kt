@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 
 class VerseRepository(private val verseDao: VerseDao)
 {
-
     var stanza:LiveData<List<Verse>> = verseDao.getAllVerses()
+    var selected:LiveData<List<Verse>> = verseDao.getSelected()
 
     suspend fun insert(verse:Verse)
     {

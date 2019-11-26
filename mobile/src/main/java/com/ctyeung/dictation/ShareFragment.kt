@@ -35,7 +35,6 @@ class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
         return binding.root
     }
 
-
     fun initValues(context: Context) {
         val view: View = binding.root
         val title = SharedPrefUtility.getShareTitle(context)

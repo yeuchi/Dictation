@@ -32,13 +32,13 @@ class ListAdapter(val listener:ListItemClickListener) : RecyclerView.Adapter<Lis
     }
 
     override fun getItemCount(): Int {
-        return this.verses?.size
+        return this.verses.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.txtVerse.text = this.verses?.get(position)?.verse
-        holder.txtDateTime.text = this.verses?.get(position)?.datetime.toString()
-        holder.setSelection(this.verses.get(position)?.isSelected)
+        holder.txtVerse.text = this.verses.get(position).verse
+        holder.txtDateTime.text = this.verses.get(position).datetime.toString()
+        holder.setSelection(this.verses.get(position).isSelected)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
