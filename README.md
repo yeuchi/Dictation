@@ -23,7 +23,7 @@ User dictations are separated into verses.  A versus represents no more than 1 m
 
 <img src="https://user-images.githubusercontent.com/1282659/69678091-26196e00-106a-11ea-832d-a511bb0e5509.jpg" width="450">  <img src="https://user-images.githubusercontent.com/1282659/69678101-29145e80-106a-11ea-9030-889b9d802c5d.jpg" width="450"> 
 
-Save all to local text file.  Set directory (default: \DICTATION) and file name (default: dictate.txt).
+Save all to local text file.  Set directory (default: \DICTATION) and file name (default: dictate.txt).\
 <img src="https://user-images.githubusercontent.com/1282659/69679849-ca9daf00-106e-11ea-9db8-6d6775da0b4c.jpg" width="200"> 
  
 Select N verse(s) to delete selected.  Delete all if none selected.\
