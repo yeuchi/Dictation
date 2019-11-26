@@ -24,13 +24,14 @@ User dictations are separated into verses.  A versus represents no more than 1 m
 <img src="https://user-images.githubusercontent.com/1282659/69678091-26196e00-106a-11ea-832d-a511bb0e5509.jpg" width="450">  <img src="https://user-images.githubusercontent.com/1282659/69678101-29145e80-106a-11ea-9030-889b9d802c5d.jpg" width="450"> 
 
 ### Save
-All verses are appended to local text file.  Set directory (default: \DICTATION) and file name (default: dictate.txt).\
+All verses are appended to local text file.\  
+Set directory (default: \DICTATION) and file name (default: dictate.txt).\
 <img src="https://user-images.githubusercontent.com/1282659/69679849-ca9daf00-106e-11ea-9db8-6d6775da0b4c.jpg" width="200"> 
  
 ### Delete
 - Select ALL or NONE to clear screen.
 - Select verse(s) to delete N specific.\
-<img src="https://user-images.githubusercontent.com/1282659/69679555-084e0800-106e-11ea-9dab-2f09c0a7a52d.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69597287-15fe8180-0fcb-11ea-8458-e5b3fe8fb6be.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69679556-08e69e80-106e-11ea-8d3b-33440c9d60d4.jpg" width="200">
+<img src="https://user-images.githubusercontent.com/1282659/69679555-084e0800-106e-11ea-9dab-2f09c0a7a52d.jpg" width="200">                 <img src="https://user-images.githubusercontent.com/1282659/69597287-15fe8180-0fcb-11ea-8458-e5b3fe8fb6be.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69679556-08e69e80-106e-11ea-8d3b-33440c9d60d4.jpg" width="200">
  
 ## Definitions
 - Dictation: a voice recording converted to text via Google Speech recognition service.
