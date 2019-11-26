@@ -20,7 +20,8 @@ At startup, READ/WRITE permission is requested.  Dictation is functional without
 
 User dictations are separated into verses.  A versus represents no more than 1 minute of user's speech.  When user stops speaking for about 2 seconds (default EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS), Google speech recognition processes voice recording to text.
 
-<img src="https://user-images.githubusercontent.com/1282659/69056365-6aa36a80-09d5-11ea-8a2c-0dbcde47475a.jpg" width="200"> 
+<img src="https://user-images.githubusercontent.com/1282659/69056365-6aa36a80-09d5-11ea-8a2c-0dbcde47475a.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69597008-219d7880-0fca-11ea-845c-19ba59b01393.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69597014-24986900-0fca-11ea-8739-d79cbc3ced17.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69597019-27935980-0fca-11ea-8ef8-ea76a38638cc.jpg" width="200">  <img src="https://user-images.githubusercontent.com/1282659/69597009-219d7880-0fca-11ea-897d-a3bfa5e04171.jpg" width="200"> 
+
 
 ## Test
 This application has been tested on Samsung Galaxy9.
