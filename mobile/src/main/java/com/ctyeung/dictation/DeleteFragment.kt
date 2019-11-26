@@ -1,6 +1,8 @@
 package com.ctyeung.dictation
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +30,7 @@ class DeleteFragment(val listener:OnDialogListener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         binding = FragmentDeleteBinding.inflate(inflater, container, false)
         initValues()
         initClickHandler()

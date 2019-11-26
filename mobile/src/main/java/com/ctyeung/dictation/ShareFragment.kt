@@ -1,6 +1,8 @@
 package com.ctyeung.dictation
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +30,8 @@ class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         binding = FragmentShareBinding.inflate(inflater, container, false)
         _context = this.context ?: listener as Context
         initValues(_context)
