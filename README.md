@@ -2,7 +2,7 @@
 Android dictation exercise 
 
 ## Google Play
-Java (Original) : https://play.google.com/store/apps/details?id=com.ctyeung.dictation
+Java (Original) : https://play.google.com/store/apps/details?id=com.ctyeung.dictation \
 Kotlin : https://play.google.com/store/apps/details?id=com.ctyeung.dictatekotlin
 
 ## 2013 Version 1
