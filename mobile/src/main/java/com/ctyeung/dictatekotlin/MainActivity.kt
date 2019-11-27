@@ -179,9 +179,6 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    /*
-     * Refactor !! model -> Serializes
-     */
     override fun onShareDlgClick() {
         val result = FileSerializer.write2email(activity)
         Toast.makeText(this, result.second, Toast.LENGTH_SHORT).show()
