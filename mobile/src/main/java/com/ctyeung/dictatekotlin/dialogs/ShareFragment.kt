@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.ctyeung.dictatekotlin.databinding.FragmentShareBinding
-import com.ctyeung.dictatekotlin.utilities.SharedPrefUtility
+import com.ctyeung.dictatekotlin.viewModel.SharedPrefUtility
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ShareFragment(val listener:OnDialogListener) : DialogFragment() {

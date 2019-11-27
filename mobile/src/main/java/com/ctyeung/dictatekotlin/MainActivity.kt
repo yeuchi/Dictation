@@ -1,7 +1,6 @@
 package com.ctyeung.dictatekotlin
 
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -11,21 +10,15 @@ import com.ctyeung.dictatekotlin.databinding.ActivityMainBinding
 import android.widget.Toast
 import android.os.Environment
 import android.widget.TextView
-import java.io.File
-import java.io.FileOutputStream
-import java.text.SimpleDateFormat
 import java.util.*
 import android.speech.RecognizerIntent
 import android.os.Build
-import android.os.StrictMode
-import android.util.Log
-import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ctyeung.dictatekotlin.room.Verse
-import com.ctyeung.dictatekotlin.utilities.SharedPrefUtility
+import com.ctyeung.dictatekotlin.viewModel.FileSerializer
 import com.ctyeung.dictatekotlin.utilities.SpeechRecognitionHelper
 import com.ctyeung.dictatekotlin.viewModel.VerseViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,7 +51,6 @@ class MainActivity : AppCompatActivity(),
     val MAX_ITEMS:Int = 200
     val REQ_CODE_SPEECH_INPUT = 100
     var isSavePermitted:Boolean = true
-    var countSelected:Int = 0
 
     lateinit var verseViewModel: VerseViewModel
     lateinit var textInfo:TextView
@@ -162,6 +154,21 @@ class MainActivity : AppCompatActivity(),
     }
 
     /*
+     * Persist fragment button (save) clicked
+     */
+    override fun onSaveDlgClick()
+    {
+        val result = verseViewModel.serialize2File(activity)
+        Toast.makeText(this, result.second, Toast.LENGTH_LONG).show()
+
+        if(true == result.first)
+        {
+            // ok to share
+            binding.btnShare.show()
+        }
+    }
+
+    /*
      * Share dictation (drive, facebook, email, etc)
      */
     fun onClickShare()
@@ -172,39 +179,12 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    /*
+     * Refactor !! model -> Serializes
+     */
     override fun onShareDlgClick() {
-        try {
-            val builder = StrictMode.VmPolicy.Builder()
-            StrictMode.setVmPolicy(builder.build())
-
-            val uri = SharedPrefUtility.getFileUri(activity)
-            val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
-            emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            emailIntent.type = resources.getString(R.string.default_directory)+"/*"
-
-            // Subject
-            val title = resources.getString(R.string.default_directory)
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, title)
-            val msg = SharedPrefUtility.getShareTitle(activity)
-            emailIntent.putExtra(Intent.EXTRA_TEXT, msg)
-            emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uri)
-
-            // user select share application
-            if (emailIntent.resolveActivity(activity.baseContext.packageManager) != null) {
-                val send_title = resources.getString(R.string.default_title)
-                activity.startActivity(Intent.createChooser(emailIntent, send_title))
-            }
-
-        } catch (e: Exception) {
-            val msg = resources.getString(R.string.share_error)
-
-            Toast.makeText(this,
-                msg,
-                Toast.LENGTH_SHORT
-            ).show()
-
-            Log.e(msg, e.message, e)
-        }
+        val result = FileSerializer.write2email(activity)
+        Toast.makeText(this, result.second, Toast.LENGTH_SHORT).show()
     }
 
     /*
@@ -212,8 +192,7 @@ class MainActivity : AppCompatActivity(),
      */
     fun onClickDelete()
     {
-        countSelected = selectedCount()
-        val dlg = DeleteFragment(this, countSelected, verseCount())
+        val dlg = DeleteFragment(this, verseViewModel.selectedCount(), verseViewModel.verseCount())
         dlg.show(supportFragmentManager, "Delete")
     }
 
@@ -221,10 +200,9 @@ class MainActivity : AppCompatActivity(),
      * User chooses to delete
      */
     override fun onDeleteDlgClick() {
-        if(0==countSelected ||
-            countSelected==verseCount()) {
+        if(verseViewModel.allSelected())
             verseViewModel.clear()
-        }
+
         else
             verseViewModel.deleteSelected()
     }
@@ -263,23 +241,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     /*
-     * Persist fragment button (save) clicked
-     */
-    override fun onSaveDlgClick()
-    {
-        // something to save
-        var builder: StringBuilder = StringBuilder()
-
-        // loop through list and write to file
-        val stanza = verseViewModel.stanza.value?:emptyList<Verse>()
-        for (v in stanza) {
-            builder.append(v.verse+ "\r\n")
-        }
-
-        write2file(builder.toString())
-    }
-
-    /*
      * Capture dictation result
      */
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?)
@@ -294,6 +255,7 @@ class MainActivity : AppCompatActivity(),
                 val str = matches?.get(0).toString()
                 val verse = Verse(System.currentTimeMillis(), str)
                 verseViewModel.insert(verse)
+                binding.btnShare.hide()
             }
         }
         updateInfo()
@@ -304,7 +266,7 @@ class MainActivity : AppCompatActivity(),
      */
     fun updateInfo()
     {
-        val count = verseCount()
+        val count = verseViewModel.verseCount()
         var str:String
         if(count > 0)
         {
@@ -318,27 +280,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     /*
-     * number of verses in db
-     */
-    fun verseCount():Int
-    {
-        return verseViewModel.stanza.value?.size?:0
-    }
-
-    /*
-     * number of selected count
-     */
-    fun selectedCount():Int
-    {
-        return verseViewModel.repository.getCountSelected()
-    }
-
-    /*
      * if verse count > 200, popup for user to save !
      */
     private fun popUpSaveReminder()
     {
-        if(verseCount() > MAX_ITEMS)
+        if(verseViewModel.verseCount() > MAX_ITEMS)
         {
             // pop up to ask user to save or select auto-save !!
         }
@@ -350,43 +296,6 @@ class MainActivity : AppCompatActivity(),
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,Locale.getDefault())
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, activity.resources.getString(R.string.say_some));
         startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-    }
-
-    private fun getDateTime():String
-    {
-        val hasDateTime = SharedPrefUtility.getHasDateTime(activity)
-        if(hasDateTime)
-        {
-            val df = SimpleDateFormat("d MMM yyyy HH:mm:ss")
-            val date = df.format(Calendar.getInstance().getTime())
-            return date
-        }
-        return " " // spacer
-    }
-
-    private fun write2file(str: String)
-    {
-        val myFile = SharedPrefUtility.getFile(activity)
-
-        try
-        {
-            if (!myFile.exists())
-                myFile.createNewFile()
-
-            val fos: FileOutputStream
-            val dateTime = getDateTime()
-            val buf = dateTime + "\r\n" + str + "\r\n"
-            val data = buf.toByteArray()
-            fos = FileOutputStream(myFile, true)
-            fos.write(data)
-            fos.flush()
-            fos.close()
-            Toast.makeText(this,  dateTime + activity.resources.getString(R.string.file_saved), Toast.LENGTH_LONG).show()
-        }
-        catch (e: Exception)
-        {
-            e.printStackTrace()
-        }
     }
 
     private val isExternalStorageReadOnly: Boolean get() {

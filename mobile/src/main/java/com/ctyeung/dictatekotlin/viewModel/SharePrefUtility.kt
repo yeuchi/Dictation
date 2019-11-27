@@ -1,4 +1,4 @@
-package com.ctyeung.dictatekotlin.utilities
+package com.ctyeung.dictatekotlin.viewModel
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -25,14 +25,18 @@ object SharedPrefUtility
         if(!directory.exists())
             directory.mkdirs()
 
-        val filename = getFilePath(context)
+        val filename =
+            getFilePath(
+                context
+            )
         val file = File(directory, filename)
         return file
     }
 
     fun getFileUri(context: Context): ArrayList<Uri> {
 
-        val file:File = getFile(context)
+        val file:File =
+            getFile(context)
         val uri = FileProvider.getUriForFile(
             context,
             "com.ctyeung.dictatekotlin.fileprovider",
@@ -46,13 +50,19 @@ object SharedPrefUtility
     fun getHasDateTime(context: Context):Boolean
     {
         val defaultValue:Boolean = true
-        val sharedPreferences = getSharedPref(context)
+        val sharedPreferences =
+            getSharedPref(
+                context
+            )
         return sharedPreferences.getBoolean(keydatetime, defaultValue)
     }
 
     fun setHasDateTime(context: Context, onOff:Boolean)
     {
-        val sharedPreferences = getSharedPref(context)
+        val sharedPreferences =
+            getSharedPref(
+                context
+            )
         val editor = sharedPreferences.edit()
         editor.putBoolean(keydatetime, onOff)
         editor.commit()
@@ -60,33 +70,55 @@ object SharedPrefUtility
 
     fun getShareTitle(context: Context):String
     {
-        return getString(context, keyShareTitle, context.resources.getString(R.string.default_title))
+        return getString(
+            context,
+            keyShareTitle,
+            context.resources.getString(R.string.default_title)
+        )
     }
 
     fun setShareTitle(context: Context, title:String)
     {
-        setString(context, keyShareTitle, title)
+        setString(
+            context,
+            keyShareTitle,
+            title
+        )
     }
 
     fun getFilePath(context: Context):String
     {
-        return getString(context, keyfilepath, context.resources.getString(R.string.default_filename))
+        return getString(
+            context,
+            keyfilepath,
+            context.resources.getString(R.string.default_filename)
+        )
     }
 
     fun setFilePath(context: Context, filePath:String)
     {
-        setString(context, keyfilepath, filePath)
+        setString(
+            context,
+            keyfilepath,
+            filePath
+        )
     }
 
     fun getString(context: Context, key:String, defaultValue:String):String
     {
-        val sharedPreferences = getSharedPref(context)
+        val sharedPreferences =
+            getSharedPref(
+                context
+            )
         return sharedPreferences.getString(key, defaultValue)?:defaultValue
     }
 
     fun setString(context: Context, key:String, str:String)
     {
-        val sharedPreferences = getSharedPref(context)
+        val sharedPreferences =
+            getSharedPref(
+                context
+            )
         val editor = sharedPreferences.edit()
         editor.putString(key, str)
         editor.commit()

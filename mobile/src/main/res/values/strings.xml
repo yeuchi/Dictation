@@ -14,6 +14,7 @@
     <string name="default_title">Share Title</string>
     <string name="default_directory">DICTATION</string>
     <string name="default_filename">dictate.txt</string>
+    <string name="share_success">Shared Success</string>
 
     <!-- Persistence fragment -->
     <string name="directory">Directory</string>
@@ -37,5 +38,6 @@
 
     <!-- General error -->
     <string name="share_error">Share error</string>
+    <string name="write_file_error">Write file error</string>
 
 </resources>

@@ -8,14 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.LinearLayout
-import androidx.databinding.Bindable
 import androidx.fragment.app.DialogFragment
 
 
-import androidx.databinding.DataBindingUtil
 import com.ctyeung.dictatekotlin.databinding.FragmentLocalSaveBinding
-import com.ctyeung.dictatekotlin.utilities.SharedPrefUtility
+import com.ctyeung.dictatekotlin.viewModel.SharedPrefUtility
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /*
