@@ -25,7 +25,7 @@ User dictations are separated into verses.  A versus represents no more than 1 m
 
 ### Save
 All verses are appended to local text file.
-Set directory (default: \DICTATION) and file name (default: dictate.txt).\
+Set directory \DICTATION and file name (default: dictate.txt).\
 <img src="https://user-images.githubusercontent.com/1282659/69679849-ca9daf00-106e-11ea-9db8-6d6775da0b4c.jpg" width="200"> 
  
 ### Share
