@@ -2,7 +2,7 @@
 <layout>
     <data>
         <variable name="deleteLayout"
-            type="com.ctyeung.dictation.DeleteFragment"/>
+            type="com.ctyeung.dictatekotlin.DeleteFragment"/>
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

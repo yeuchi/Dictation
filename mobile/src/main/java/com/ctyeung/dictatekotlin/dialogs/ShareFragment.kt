@@ -1,4 +1,4 @@
-package com.ctyeung.dictation
+package com.ctyeung.dictatekotlin
 
 import android.content.Context
 import android.graphics.Color
@@ -9,7 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
-import com.ctyeung.dictation.databinding.FragmentShareBinding
+import com.ctyeung.dictatekotlin.databinding.FragmentShareBinding
+import com.ctyeung.dictatekotlin.utilities.SharedPrefUtility
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
@@ -65,6 +66,7 @@ class ShareFragment(val listener:OnDialogListener) : DialogFragment() {
     }
 
     fun onClickShare() {
+        SharedPrefUtility.setShareTitle(_context, txtTitle.text.toString())
         listener.onShareDlgClick()
         dismiss()
     }

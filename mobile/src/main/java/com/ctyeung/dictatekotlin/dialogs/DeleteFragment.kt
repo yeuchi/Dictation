@@ -1,4 +1,4 @@
-package com.ctyeung.dictation
+package com.ctyeung.dictatekotlin
 
 import android.content.Context
 import android.graphics.Color
@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.ctyeung.dictation.databinding.FragmentDeleteBinding
+import com.ctyeung.dictatekotlin.databinding.FragmentDeleteBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class DeleteFragment(val listener:OnDialogListener,

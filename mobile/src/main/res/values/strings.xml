@@ -11,7 +11,7 @@
     <string name="title_activity_config">ConfigActivity</string>
 
     <!-- SharePrefUtility -->
-    <string name="default_title">Title</string>
+    <string name="default_title">Share Title</string>
     <string name="default_directory">DICTATION</string>
     <string name="default_filename">dictate.txt</string>
 
@@ -34,4 +34,8 @@
     <string name="msg_delete_all">Delete All</string>
     <string name="msg_delete_selected">Delete Selected</string>
     <string name="out_of"> of </string>
+
+    <!-- General error -->
+    <string name="share_error">Share error</string>
+
 </resources>

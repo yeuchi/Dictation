@@ -1,4 +1,4 @@
-package com.ctyeung.dictation
+package com.ctyeung.dictatekotlin
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ctyeung.dictation.room.Verse
+import com.ctyeung.dictatekotlin.room.Verse
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /*

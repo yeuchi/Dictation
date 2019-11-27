@@ -1,4 +1,4 @@
-package com.ctyeung.dictation.room
+package com.ctyeung.dictatekotlin.room
 
 import androidx.lifecycle.LiveData
 

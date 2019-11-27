@@ -19,7 +19,7 @@
 // Intel and the Intel logo are trademarks of Intel Corporation in the U.S. and/or other countries.
 // Copyright © 2013 Intel Corporation. All rights reserved.
 // ==================================================================
-package com.ctyeung.dictation;
+package com.ctyeung.dictatekotlin.utilities;
 
 import java.util.List;
 

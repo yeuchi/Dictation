@@ -1,12 +1,13 @@
-package com.ctyeung.dictation
+package com.ctyeung.dictatekotlin
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import androidx.lifecycle.Observer
 import androidx.databinding.DataBindingUtil
-import com.ctyeung.dictation.databinding.ActivityMainBinding
+import com.ctyeung.dictatekotlin.databinding.ActivityMainBinding
 import android.widget.Toast
 import android.os.Environment
 import android.widget.TextView
@@ -16,12 +17,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.speech.RecognizerIntent
 import android.os.Build
+import android.os.StrictMode
+import android.util.Log
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ctyeung.dictation.room.Verse
-import com.ctyeung.dictation.viewModel.VerseViewModel
+import com.ctyeung.dictatekotlin.room.Verse
+import com.ctyeung.dictatekotlin.utilities.SharedPrefUtility
+import com.ctyeung.dictatekotlin.utilities.SpeechRecognitionHelper
+import com.ctyeung.dictatekotlin.viewModel.VerseViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.lang.StringBuilder
 
@@ -44,10 +50,10 @@ import java.lang.StringBuilder
  *  https://software.intel.com/en-us/articles/developing-android-applications-with-voice-recognition-features
  */
 class MainActivity : AppCompatActivity(),
-                        ListAdapter.ListItemClickListener,
-                        ShareFragment.OnDialogListener,
-                        LocalSaveFragment.OnDialogListener,
-                        DeleteFragment.OnDialogListener {
+    ListAdapter.ListItemClickListener,
+    ShareFragment.OnDialogListener,
+    LocalSaveFragment.OnDialogListener,
+    DeleteFragment.OnDialogListener {
 
     val MAX_ITEMS:Int = 200
     val REQ_CODE_SPEECH_INPUT = 100
@@ -162,12 +168,43 @@ class MainActivity : AppCompatActivity(),
     {
         if(isPersistAllowed()) {
             val dlg = ShareFragment(this)
-            dlg.show(supportFragmentManager, "Share")
+            dlg.show(supportFragmentManager, resources.getString(R.string.default_title))
         }
     }
 
     override fun onShareDlgClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        try {
+            val builder = StrictMode.VmPolicy.Builder()
+            StrictMode.setVmPolicy(builder.build())
+
+            val uri = SharedPrefUtility.getFileUri(activity)
+            val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
+            emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            emailIntent.type = resources.getString(R.string.default_directory)+"/*"
+
+            // Subject
+            val title = resources.getString(R.string.default_directory)
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, title)
+            val msg = SharedPrefUtility.getShareTitle(activity)
+            emailIntent.putExtra(Intent.EXTRA_TEXT, msg)
+            emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uri)
+
+            // user select share application
+            if (emailIntent.resolveActivity(activity.baseContext.packageManager) != null) {
+                val send_title = resources.getString(R.string.default_title)
+                activity.startActivity(Intent.createChooser(emailIntent, send_title))
+            }
+
+        } catch (e: Exception) {
+            val msg = resources.getString(R.string.share_error)
+
+            Toast.makeText(this,
+                msg,
+                Toast.LENGTH_SHORT
+            ).show()
+
+            Log.e(msg, e.message, e)
+        }
     }
 
     /*
@@ -329,13 +366,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun write2file(str: String)
     {
-        val path = Environment.getExternalStorageDirectory().toString()
-
-        val directory = File(path, SharedPrefUtility.getDirectory(activity))
-        directory.mkdirs()
-
-        val filename = SharedPrefUtility.getFilePath(activity)
-        val myFile = File(directory, filename)
+        val myFile = SharedPrefUtility.getFile(activity)
 
         try
         {

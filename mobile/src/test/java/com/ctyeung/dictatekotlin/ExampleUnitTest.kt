@@ -1,4 +1,4 @@
-package com.ctyeung.dictation
+package com.ctyeung.dictatekotlin
 
 import org.junit.Test
 

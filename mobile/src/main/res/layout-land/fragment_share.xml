@@ -3,7 +3,7 @@
 <layout>
     <data>
         <variable name="persistLayout"
-            type="com.ctyeung.dictation.ShareFragment"/>
+            type="com.ctyeung.dictatekotlin.ShareFragment"/>
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -49,6 +49,8 @@
                         android:layout_width="@dimen/edit_text_width"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/btn_margin"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
                         android:id="@+id/txtTitle"/>
 
                 </LinearLayout>

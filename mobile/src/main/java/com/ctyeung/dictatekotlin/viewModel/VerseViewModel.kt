@@ -1,12 +1,12 @@
-package com.ctyeung.dictation.viewModel
+package com.ctyeung.dictatekotlin.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.ctyeung.dictation.room.VerseDatabase
-import com.ctyeung.dictation.room.Verse
-import com.ctyeung.dictation.room.VerseRepository
+import com.ctyeung.dictatekotlin.room.VerseDatabase
+import com.ctyeung.dictatekotlin.room.Verse
+import com.ctyeung.dictatekotlin.room.VerseRepository
 import kotlinx.coroutines.launch
 
 class VerseViewModel (application: Application) : AndroidViewModel(application)

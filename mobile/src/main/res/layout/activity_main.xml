@@ -3,7 +3,7 @@
 <layout>
     <data>
         <variable name="mainLayout"
-            type="com.ctyeung.dictation.MainActivity"/>
+            type="com.ctyeung.dictatekotlin.MainActivity"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -60,7 +60,6 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 app:fabSize="normal"
-                android:visibility="gone"
                 android:layout_gravity="bottom|right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

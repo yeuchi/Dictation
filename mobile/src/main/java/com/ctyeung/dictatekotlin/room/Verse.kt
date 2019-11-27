@@ -1,4 +1,4 @@
-package com.ctyeung.dictation.room
+package com.ctyeung.dictatekotlin.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
