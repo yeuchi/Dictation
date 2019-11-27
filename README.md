@@ -52,8 +52,9 @@ This application has been tested on Samsung Galaxy9.
 - compileSdkVersion 28
 
 ## Features/framework/skills
-- Jetpack data binding
 - Room/DAO/Entity/Repository/ViewModel
+- SQL/Migration
+- Jetpack data binding
 - FileIO/SharedPreference
 - EmailIntent/Share
 - SpeechRecognitionService
