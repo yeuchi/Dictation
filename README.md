@@ -51,6 +51,14 @@ This application has been tested on Samsung Galaxy9.
 - JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
 - compileSdkVersion 28
 
+## Features/framework/skills
+- Jetpack data binding
+- Room/DAO/Entity/Repository/ViewModel
+- FileIO/SharedPreference
+- EmailIntent/Share
+- SpeechRecognitionService
+- Layout/Dialog/Material Design
+
 # References:
 
 1. Kotlin "Discover the core Android API for Speech Recognition." by Younes Charfaoui, July 30, 2019\
