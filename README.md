@@ -28,6 +28,10 @@ All verses are appended to local text file.
 Set directory (default: \DICTATION) and file name (default: dictate.txt).\
 <img src="https://user-images.githubusercontent.com/1282659/69679849-ca9daf00-106e-11ea-9db8-6d6775da0b4c.jpg" width="200"> 
  
+### Share
+After a file has been shaved to local directory, it can be shared with another app (email, facebook, drive, etc).  Below is an example of email attachment.\
+<img src="https://user-images.githubusercontent.com/1282659/69752635-3f2c2880-1117-11ea-8b72-81a344343ff7.jpg" width="200">    <img src="https://user-images.githubusercontent.com/1282659/69752639-418e8280-1117-11ea-8450-e73b918002e8.jpg" width="200">    <img src="https://user-images.githubusercontent.com/1282659/69752648-44897300-1117-11ea-8e33-ad8490ed1a07.jpg" width="200">   
+
 ### Delete
 - Select ALL or NONE to clear screen.
 - Select verse(s) to delete N specific.\
