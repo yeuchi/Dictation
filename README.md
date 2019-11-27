@@ -45,6 +45,12 @@ After a file has been shaved to local directory, it can be shared with another a
 ## Test
 This application has been tested on Samsung Galaxy9.
 
+## IDE
+- Android Studio 3.5.2
+- JRE: 1.8.0_202-release-1483-b49-5587405 x86_64
+- JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
+- compileSdkVersion 28
+
 # References:
 
 1. Kotlin "Discover the core Android API for Speech Recognition." by Younes Charfaoui, July 30, 2019\
