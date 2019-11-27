@@ -1,7 +1,9 @@
 # Dictation (Java), DictateKotlin <img src="https://user-images.githubusercontent.com/1282659/69678209-87414180-106a-11ea-833a-e03f49ba6154.png" width="40"> 
 Android dictation exercise 
 
-Google Play : https://play.google.com/store/apps/details?id=com.ctyeung.dictation
+## Google Play
+Java (Original) : https://play.google.com/store/apps/details?id=com.ctyeung.dictation
+Kotlin : https://play.google.com/store/apps/details?id=com.ctyeung.dictatekotlin
 
 ## 2013 Version 1
 This was originally implemented in Java as an exercise to demonstrate the speech to text feature.
