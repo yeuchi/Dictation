@@ -61,11 +61,9 @@ class MainActivity : AppCompatActivity(),
 
     /*
      * Refactor all variables into model
-     *
      * 1. Serialization
      * 2. Marshalling of data
      */
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -84,13 +82,33 @@ class MainActivity : AppCompatActivity(),
         verseViewModel = ViewModelProvider(this).get(VerseViewModel::class.java)
         verseViewModel.stanza.observe(this, Observer { stanza ->
             // Update the cached copy of the words in the adapter.
-            stanza?.let { adapter.setVerses(it) }
+            stanza?.let {
+                adapter.setVerses(it)
+                updateInfo(stanza.size)
+            }
         })
 
         textInfo = activity.findViewById(R.id.txt_info)
 
         if (shouldAskPermissions())
             askPermissions()
+    }
+
+    /*
+     * Display appropriate text information
+     */
+    fun updateInfo(count:Int=0)
+    {
+        var str:String
+        if(count > 0)
+        {
+            str = activity.resources.getString(R.string.info_count) + " " + count
+            popUpSaveReminder()
+        }
+        else {
+            str = activity.resources.getString(R.string.info)
+        }
+        textInfo.setText(str)
     }
 
     /*
@@ -255,25 +273,6 @@ class MainActivity : AppCompatActivity(),
                 binding.btnShare.hide()
             }
         }
-        updateInfo()
-    }
-
-    /*
-     * Display appropriate text information
-     */
-    fun updateInfo()
-    {
-        val count = verseViewModel.verseCount()
-        var str:String
-        if(count > 0)
-        {
-            str = activity.resources.getString(R.string.info_count) + " " + count
-            popUpSaveReminder()
-        }
-        else {
-            str = activity.resources.getString(R.string.info)
-        }
-        textInfo.setText(str)
     }
 
     /*

@@ -15,7 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  */
 class ListAdapter(val listener:ListItemClickListener) : RecyclerView.Adapter<ListAdapter.ViewHolder>()
 {
-    var countSelected:Int = 0
     private var verses = emptyList<Verse>()
 
     interface ListItemClickListener
