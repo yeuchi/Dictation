@@ -1,7 +1,9 @@
-# Dictation, DictateKotlin <img src="https://user-images.githubusercontent.com/1282659/69678209-87414180-106a-11ea-833a-e03f49ba6154.png" width="40"> 
+# Dictation <img src="https://user-images.githubusercontent.com/1282659/69678209-87414180-106a-11ea-833a-e03f49ba6154.png" width="40"> 
 Android dictation exercise 
 
-Google Play : https://play.google.com/store/apps/details?id=com.ctyeung.dictation
+## Google Play
+Java (Original) : https://play.google.com/store/apps/details?id=com.ctyeung.dictation \
+Kotlin : https://play.google.com/store/apps/details?id=com.ctyeung.dictatekotlin
 
 ## 2013 Version 1
 This was originally implemented in Java as an exercise to demonstrate the speech to text feature.
@@ -25,7 +27,7 @@ User dictations are separated into verses.  A versus represents no more than 1 m
 
 ### Save
 All verses are appended to local text file.
-Set directory (default: \DICTATION) and file name (default: dictate.txt).\
+Set directory \DICTATION and file name (default: dictate.txt).\
 <img src="https://user-images.githubusercontent.com/1282659/69679849-ca9daf00-106e-11ea-9db8-6d6775da0b4c.jpg" width="200"> 
  
 ### Share
@@ -44,6 +46,21 @@ After a file has been shaved to local directory, it can be shared with another a
 
 ## Test
 This application has been tested on Samsung Galaxy9.
+
+## IDE
+- Android Studio 3.5.2
+- JRE: 1.8.0_202-release-1483-b49-5587405 x86_64
+- JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
+- compileSdkVersion 28
+
+## Features/framework/skills
+- Room/DAO/Entity/Repository/ViewModel
+- SQL/Migration
+- Jetpack data binding
+- FileIO/SharedPreference
+- EmailIntent/Share
+- SpeechRecognitionService
+- Layout/Dialog/Material Design
 
 # References:
 
