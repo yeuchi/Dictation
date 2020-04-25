@@ -44,6 +44,11 @@ After a file has been shaved to local directory, it can be shared with another a
 - Verse: (less than 1 minute) segment of converted text.
 - Stanza: collection of verses.
 
+## Data
+http://erdraw.com/graphs/927843444069/edit \
+<img width="576" src="https://user-images.githubusercontent.com/1282659/70194879-99a22780-16c9-11ea-80a1-2328f6c1ec1e.png"> \
+Each voice recording is converted to a dictation text segment; it is persisted in the database as a verse entity.  The sum of verses in the database is known as a stanza.  For long term storage, user saves the stanza into a file.  Note: each time user saves to a file, the verses are appended to the end of the text file (if exists) with a date time stamp at the top.  This file can also be 'shared' with other apps (email, drive, facebook, etc).
+
 ## Test
 This application has been tested on Samsung Galaxy9.
 
