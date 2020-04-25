@@ -53,7 +53,7 @@ public abstract class VerseDatabase : RoomDatabase ()
             super.onOpen(db)
             INSTANCE?.let { database ->
                 scope.launch(Dispatchers.IO) {
-                    populateDatabase(database.verseDao())
+                    //populateDatabase(database.verseDao())
                 }
             }
         }

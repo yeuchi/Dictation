@@ -52,8 +52,7 @@ class MainActivity : AppCompatActivity(),
     val REQ_CODE_SPEECH_INPUT = 100
     var isSavePermitted:Boolean = true
 
-    lateinit var verseViewModel: VerseViewModel
-    lateinit var textInfo:TextView
+    lateinit var model: VerseViewModel
     lateinit var binding: ActivityMainBinding
     lateinit var activity: MainActivity
     lateinit var speechRecognizer:SpeechRecognitionHelper
@@ -79,37 +78,20 @@ class MainActivity : AppCompatActivity(),
         recycleView.adapter = adapter
 
         // data
-        verseViewModel = ViewModelProvider(this).get(VerseViewModel::class.java)
-        verseViewModel.stanza.observe(this, Observer { stanza ->
+        model = ViewModelProvider(this).get(VerseViewModel::class.java)
+        model.stanza.observe(this, Observer { stanza ->
             // Update the cached copy of the words in the adapter.
             stanza?.let {
                 adapter.setVerses(it)
-                updateInfo(stanza.size)
+                model.updateInfo(stanza.size)
+                binding.invalidateAll()
             }
         })
-
-        textInfo = activity.findViewById(R.id.txt_info)
 
         if (shouldAskPermissions())
             askPermissions()
     }
 
-    /*
-     * Display appropriate text information
-     */
-    fun updateInfo(count:Int=0)
-    {
-        var str:String
-        if(count > 0)
-        {
-            str = activity.resources.getString(R.string.info_count) + " " + count
-            popUpSaveReminder()
-        }
-        else {
-            str = activity.resources.getString(R.string.info)
-        }
-        textInfo.setText(str)
-    }
 
     /*
      * API 23 and up requires permission for READ/WRITE to storage
@@ -176,7 +158,7 @@ class MainActivity : AppCompatActivity(),
      */
     override fun onSaveDlgClick()
     {
-        val result = verseViewModel.serialize2File(activity)
+        val result = model.serialize2File(activity)
         Toast.makeText(this, result.second, Toast.LENGTH_LONG).show()
 
         if(true == result.first)
@@ -207,7 +189,7 @@ class MainActivity : AppCompatActivity(),
      */
     fun onClickDelete()
     {
-        val dlg = DeleteFragment(this, verseViewModel.selectedCount(), verseViewModel.verseCount())
+        val dlg = DeleteFragment(this, model.selectedCount(), model.verseCount())
         dlg.show(supportFragmentManager, "Delete")
     }
 
@@ -215,11 +197,11 @@ class MainActivity : AppCompatActivity(),
      * User chooses to delete
      */
     override fun onDeleteDlgClick() {
-        if(verseViewModel.allSelected())
-            verseViewModel.clear()
+        if(model.allSelected())
+            model.clear()
 
         else
-            verseViewModel.deleteSelected()
+            model.deleteSelected()
     }
 
     /*
@@ -228,7 +210,7 @@ class MainActivity : AppCompatActivity(),
     override fun onListItemClick(verse: Verse)
     {
         // a recycler item is clicked -- selection changed
-        verseViewModel.update(verse)
+        model.update(verse)
     }
 
     /*
@@ -247,7 +229,7 @@ class MainActivity : AppCompatActivity(),
         if( false == verifyExternalStorage())
             return false
 
-        if(0 == verseViewModel.stanza.value?.size)
+        if(0 == model.stanza.value?.size)
         {
             Toast.makeText(this, activity.resources.getString(R.string.no_text), Toast.LENGTH_LONG).show()
             return false
@@ -269,20 +251,9 @@ class MainActivity : AppCompatActivity(),
             {
                 val str = matches?.get(0).toString()
                 val verse = Verse(System.currentTimeMillis(), str)
-                verseViewModel.insert(verse)
+                model.insert(verse)
                 binding.btnShare.hide()
             }
-        }
-    }
-
-    /*
-     * if verse count > 200, popup for user to save !
-     */
-    private fun popUpSaveReminder()
-    {
-        if(verseViewModel.verseCount() > MAX_ITEMS)
-        {
-            // pop up to ask user to save or select auto-save !!
         }
     }
 

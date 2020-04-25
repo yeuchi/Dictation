@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.ctyeung.dictatekotlin.R
 import com.ctyeung.dictatekotlin.room.VerseDatabase
 import com.ctyeung.dictatekotlin.room.Verse
 import com.ctyeung.dictatekotlin.room.VerseRepository
@@ -13,13 +14,31 @@ import java.lang.StringBuilder
 
 class VerseViewModel (application: Application) : AndroidViewModel(application)
 {
+    private val context = getApplication<Application>().applicationContext
     var repository:VerseRepository
     var stanza:LiveData<List<Verse>>
+    var txtInfo:String = "0"
 
     init {
         val verseDao = VerseDatabase.getDatabase(application, viewModelScope).verseDao()
         repository = VerseRepository(verseDao)
         stanza = repository.stanza
+    }
+
+
+    /*
+     * Display appropriate text information
+     */
+    fun updateInfo(count:Int=0)
+    {
+        var str:String
+        if(count > 0)
+        {
+            txtInfo = context.resources.getString(R.string.info_count) + " " + count
+        }
+        else {
+            txtInfo = context.resources.getString(R.string.info)
+        }
     }
 
     fun insert(verse:Verse) = viewModelScope.launch {
