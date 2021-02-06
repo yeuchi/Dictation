@@ -22,7 +22,7 @@ class VerseViewModel (application: Application) : AndroidViewModel(application)
     init {
         val verseDao = VerseDatabase.getDatabase(application, viewModelScope).verseDao()
         repository = VerseRepository(verseDao)
-        stanza = repository.stanza
+        stanza = repository.getAll
     }
 
 
@@ -75,16 +75,23 @@ class VerseViewModel (application: Application) : AndroidViewModel(application)
         return stanza.value?.size?:0
     }
 
-    fun selectedCount():Int {
-        return repository.getCountSelected()
-    }
-
     fun allSelected():Boolean {
         val count = selectedCount()
         if(0==count || count >=verseCount())
             return true
 
         return false
+    }
+
+    fun selectedCount():Int {
+        var count = 0
+        val list = stanza.value
+        for(i in list!!.indices) {
+            val verse = list[i]
+            if(verse.isSelected)
+                count ++
+        }
+        return count
     }
 }
 

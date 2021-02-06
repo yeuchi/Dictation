@@ -2,6 +2,7 @@ package com.ctyeung.dictatekotlin.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 /*
  * SQL statements here for CRUD operations
@@ -11,10 +12,11 @@ import androidx.room.*
 interface VerseDao
 {
     @Query("SELECT * from verse_table ORDER BY datetime")
-    fun getAllVerses() : LiveData<List<Verse>>
+    fun getAllVerses() : Flow<List<Verse>>
+   // fun getAllVerses() : LiveData<List<Verse>>
 
     @Query("SELECT * from verse_table WHERE isSelected = 1")
-    fun getSelected() : LiveData<List<Verse>>
+    fun getSelected() : Flow<List<Verse>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(verse:Verse)

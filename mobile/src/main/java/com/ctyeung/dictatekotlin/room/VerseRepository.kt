@@ -1,10 +1,20 @@
 package com.ctyeung.dictatekotlin.room
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 
 class VerseRepository(private val verseDao: VerseDao)
 {
-    var stanza:LiveData<List<Verse>> = verseDao.getAllVerses()
+    val dbMapper=DbMapper()
+   // var stanza:LiveData<List<Verse>> = verseDao.getAllVerses()
+
+    val getAll = verseDao.getAllVerses()
+        .map { dbMapper.mapVerses(it)}
+        .catch{}
+        .asLiveData()
 
     suspend fun insert(verse:Verse)
     {
@@ -24,20 +34,5 @@ class VerseRepository(private val verseDao: VerseDao)
     suspend fun update(verse:Verse)
     {
         verseDao.update(verse)
-    }
-
-    fun getCountSelected():Int
-    {
-        //val list = verseDao.getSelected()
-        //return list?.value?.size?:0
-
-        var count = 0
-        val list = stanza.value
-        for(i in list!!.indices) {
-            val verse = list[i]
-            if(verse.isSelected)
-                count ++
-        }
-        return count
     }
 }
