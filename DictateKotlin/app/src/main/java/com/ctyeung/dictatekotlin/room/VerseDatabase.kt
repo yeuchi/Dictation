@@ -1,12 +1,9 @@
 package com.ctyeung.dictatekotlin.room
 
-import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 /*
@@ -14,9 +11,8 @@ import kotlinx.coroutines.launch
  * https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin/#2
  */
 @Database(entities = [Verse::class], version = 1, exportSchema = false)
-public abstract class VerseDatabase : RoomDatabase ()
-{
-    abstract fun verseDao():VerseDao
+public abstract class VerseDatabase : RoomDatabase() {
+    abstract fun verseDao(): VerseDao
 
 //    companion object {
 //
@@ -77,19 +73,21 @@ public abstract class VerseDatabase : RoomDatabase ()
      * References - migration
      * https://medium.com/@manuelvicnt/android-room-upgrading-alpha-versions-needs-a-migration-with-kotlin-or-nonnull-7a2d140f05b9
      */
-    class Migration1To2 : Migration(1,2) {
+    class Migration1To2 : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             val TABLE_NAME_TEMP = "GameNew"
 
             // 1. Create new table
-            database.execSQL("CREATE TABLE IF NOT EXISTS `$TABLE_NAME_TEMP` " +
-                    "(PRIMARY KEY(`datetime` Long) + (`verse` TEXT NOT NULL)")
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `$TABLE_NAME_TEMP` " +
+                        "(PRIMARY KEY(`datetime` Long) + (`verse` TEXT NOT NULL)"
+            )
 
             // 2. Copy the data
-/*            database.execSQL("INSERT INTO $TABLE_NAME_TEMP (game_name) "
-                    + "SELECT game_name "
-                    + "FROM $TABLE_NAME")
-*/
+            /*            database.execSQL("INSERT INTO $TABLE_NAME_TEMP (game_name) "
+                                + "SELECT game_name "
+                                + "FROM $TABLE_NAME")
+            */
             // 3. Remove the old table
             database.execSQL("DROP TABLE verse_table")
 

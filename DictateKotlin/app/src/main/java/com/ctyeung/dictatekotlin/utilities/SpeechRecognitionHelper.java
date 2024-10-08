@@ -21,8 +21,6 @@
 // ==================================================================
 package com.ctyeung.dictatekotlin.utilities;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -33,10 +31,12 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
 
+import java.util.List;
+
 
 public class SpeechRecognitionHelper {
 
-    public  void run(Activity ownerActivity) {
+    public void run(Activity ownerActivity) {
         if (isSpeechRecognitionActivityPresented(ownerActivity) == true) {
             // if yes Ð running recognition
             startRecognitionActivity(ownerActivity);
@@ -46,8 +46,7 @@ public class SpeechRecognitionHelper {
         }
     }
 
-
-    private  boolean isSpeechRecognitionActivityPresented(Activity ownerActivity) {
+    private boolean isSpeechRecognitionActivityPresented(Activity ownerActivity) {
         try {
             // getting an instance of package manager
             PackageManager pm = ownerActivity.getPackageManager();
@@ -66,9 +65,10 @@ public class SpeechRecognitionHelper {
 
     /**
      * Send an Intent with request on speech
-     * @param callerActivity  - Activity, that initiated a request
+     *
+     * @param callerActivity - Activity, that initiated a request
      */
-    private  void startRecognitionActivity(Activity ownerActivity) {
+    private void startRecognitionActivity(Activity ownerActivity) {
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
@@ -85,9 +85,10 @@ public class SpeechRecognitionHelper {
     /**
      * Asking the permission for installing Google Voice Search.
      * If permission granted Ð sent user to Google Play
+     *
      * @param callerActivity Ð Activity, that initialized installing
      */
-    private  void installGoogleVoiceSearch(final Activity ownerActivity) {
+    private void installGoogleVoiceSearch(final Activity ownerActivity) {
 
         // creating a dialog asking user if he want
         // to install the Voice Search
@@ -111,7 +112,8 @@ public class SpeechRecognitionHelper {
                             // if something going wrong
                             // doing nothing
                         }
-                    }})
+                    }
+                })
 
                 .setNegativeButton("Cancel", null)    // cancel button
                 .create();

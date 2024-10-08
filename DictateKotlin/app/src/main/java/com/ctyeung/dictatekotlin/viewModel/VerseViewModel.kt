@@ -16,25 +16,24 @@ import javax.inject.Inject
 @HiltViewModel
 class VerseViewModel @Inject constructor(
     @ApplicationContext val context: Context,
-    private val db: VerseRepository):ViewModel()
-{
-    var stanza:LiveData<List<Verse>> = db.getAll
-    var txtInfo:String = "0"
+    private val db: VerseRepository
+) : ViewModel() {
+    var stanza: LiveData<List<Verse>> = db.getAll
+    var txtInfo: String = "0"
 
     /*
      * Display appropriate text information
      */
-    fun updateInfo()
-    {
+    fun updateInfo() {
         val size = (stanza.value?.size ?: 0)
-        txtInfo = if( size > 0) {
+        txtInfo = if (size > 0) {
             context.resources.getString(R.string.info_count) + " " + size
         } else {
             context.resources.getString(R.string.info)
         }
     }
 
-    fun insert(verse:Verse) = viewModelScope.launch(Dispatchers.IO) {
+    fun insert(verse: Verse) = viewModelScope.launch(Dispatchers.IO) {
         db.insert(verse)
     }
 
@@ -46,42 +45,42 @@ class VerseViewModel @Inject constructor(
         db.clear()
     }
 
-    fun update(verse:Verse) = viewModelScope.launch(Dispatchers.IO) {
+    fun update(verse: Verse) = viewModelScope.launch(Dispatchers.IO) {
         db.update(verse)
     }
 
-    fun serialize():String {
+    fun serialize(): String {
         // something to save
         val builder: StringBuilder = StringBuilder()
 
         // loop through list and write to file
-        val stanza = stanza.value?:emptyList<Verse>()
+        val stanza = stanza.value ?: emptyList<Verse>()
         for (v in stanza) {
-            builder.append(v.verse+ "\r\n")
+            builder.append(v.verse + "\r\n")
         }
 
         return builder.toString()
     }
 
-    private fun verseCount():Int {
-        return stanza.value?.size?:0
+    private fun verseCount(): Int {
+        return stanza.value?.size ?: 0
     }
 
-    fun allSelected():Boolean {
+    fun allSelected(): Boolean {
         val count = selectedCount()
-        if(0==count || count >=verseCount())
+        if (0 == count || count >= verseCount())
             return true
 
         return false
     }
 
-    private fun selectedCount():Int {
+    private fun selectedCount(): Int {
         var count = 0
         val list = stanza.value
-        for(i in list!!.indices) {
+        for (i in list!!.indices) {
             val verse = list[i]
-            if(verse.isSelected)
-                count ++
+            if (verse.isSelected)
+                count++
         }
         return count
     }

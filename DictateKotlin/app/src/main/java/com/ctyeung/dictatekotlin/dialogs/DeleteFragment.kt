@@ -35,9 +35,8 @@ class DeleteFragment(private val listener: OnDialogListener) : DialogFragment() 
         return binding.root
     }
 
-    private fun getMessage():String
-    {
-            return binding.root.resources.getString(R.string.msg_delete_all)
+    private fun getMessage(): String {
+        return binding.root.resources.getString(R.string.msg_delete_all)
     }
 
     private fun initValues() {

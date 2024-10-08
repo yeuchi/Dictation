@@ -16,7 +16,7 @@ import com.ctyeung.dictatekotlin.viewModel.SharedPrefUtility
 class ShareFragment(private val listener: OnDialogListener) : DialogFragment() {
     private lateinit var binding: FragmentShareBinding
     private lateinit var _context: Context
-    private lateinit var txtTitle:EditText
+    private lateinit var txtTitle: EditText
 
     interface OnDialogListener {
         fun onShareDlgClick()

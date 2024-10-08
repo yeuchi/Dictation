@@ -1,25 +1,26 @@
 package com.ctyeung.dictatekotlin.room
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
-/*
+/**
  * SQL statements here for CRUD operations
  */
-
 @Dao
-interface VerseDao
-{
+interface VerseDao {
     @Query("SELECT * from verse_table ORDER BY datetime")
-    fun getAllVerses() : Flow<List<Verse>>
-   // fun getAllVerses() : LiveData<List<Verse>>
+    fun getAllVerses(): Flow<List<Verse>>
+    // fun getAllVerses() : LiveData<List<Verse>>
 
     @Query("SELECT * from verse_table WHERE isSelected = 1")
-    fun getSelected() : Flow<List<Verse>>
+    fun getSelected(): Flow<List<Verse>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(verse:Verse)
+    fun insert(verse: Verse)
 
     @Query("DELETE FROM verse_table")
     fun deleteAll()
@@ -39,5 +40,5 @@ interface VerseDao
     fun deleteSelected()
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update(verse:Verse)
+    fun update(verse: Verse)
 }
