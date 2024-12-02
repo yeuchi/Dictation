@@ -22,26 +22,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DictateKotlin"
-        tools:targetApi="31">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        tools:targetApi="31" >
+    <activity
+        android:name=".MainActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.ctyeung.dictatekotlin.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
-        </provider>
+    <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="com.ctyeung.dictatekotlin.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/filepaths"/>
+    </provider>
     </application>
 
 </manifest>
