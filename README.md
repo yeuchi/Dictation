@@ -67,6 +67,13 @@ This application has been tested on Samsung Galaxy9.
 - SpeechRecognitionService
 - Layout/Dialog/Material Design
 
+## Android Studio IDE
+Android Studio Ladybug | 2024.2.1 Patch 2
+Build #AI-242.23339.11.2421.12550806, built on October 24, 2024
+
+## Test device
+Google Pixel 6a
+
 # References:
 
 1. Kotlin "Discover the core Android API for Speech Recognition." by Younes Charfaoui, July 30, 2019\
